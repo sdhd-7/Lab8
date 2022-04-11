@@ -18,11 +18,7 @@ public class AgeComm extends AbstractComm{
         catch (Exception ex){
             return "Неверный формат возраста.";
         }
-        int count = 0;
-        for (Dragon tmp : getMaker().getDragons()) {
-            if (tmp.getAge() == age)
-                count++;
-        }
+        int count = (int)getMaker().getDragons().stream().filter(x->x.getAge()==age).count();
         return "В коллекции нашлось " + count + " драконов в возрасте " + age;
     }
 }

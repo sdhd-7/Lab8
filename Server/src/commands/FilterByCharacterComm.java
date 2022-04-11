@@ -3,6 +3,10 @@ package commands;
 import programm.defaults.Dragon;
 import serv.Init;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public class FilterByCharacterComm extends AbstractComm{
     public FilterByCharacterComm(Init m){
         super(m);
@@ -12,20 +16,14 @@ public class FilterByCharacterComm extends AbstractComm{
         getMaker().getHistory_list().add("filter by character");
         int k = 0;
         StringBuilder ans = new StringBuilder();
-        for (Dragon c : getMaker().getDragons()) {
-            if (s.equals(c.getCharacter().toString())) {
-                k++;
-                ans.append(k).append(") ").append(getMaker().getGson().toJson(c)).append('\n');
-            }
-        }
-        if (k == 0) {
-            return"""
-                    В наборе нет драконов с данным характером или вы указали неверный характер.
-                    Ниже список существующих характеров:WISE
-                    EVIL
-                    CHAOTIC_EVIL
-                    FICKLE""";
-        }
-        return ans.toString();
+        getMaker().getDragons().stream().filter(x-> s.equalsIgnoreCase(x.getCharacter().toString())).forEachOrdered(x-> ans.append(getMaker().getGson().toJson(x)).append('\n'));
+        return (ans.toString().length() > 0) ? ans.toString():
+                "В наборе нет драконов с данным характером или вы указали неверный характер." + '\n'+
+                "Ниже список существующих характеров:" + '\n' +
+                "WISE" + '\n' +
+                "EVIL" + '\n' +
+                "CHAOTIC_EVIL" + '\n' +
+                "FICKLE";
+
     }
 }

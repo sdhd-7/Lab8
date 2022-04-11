@@ -18,12 +18,7 @@ public class HistoryComm extends AbstractComm{
             history.removeLast();
         }
         StringBuilder ans = new StringBuilder();
-        int ind = 1;
-        for (String tmp : history) {
-            ans.append(ind + ") ->" + tmp + '\n');
-            ind++;
-        }
-        history.addFirst("history");
+        history.forEach(tmp->ans.append("-> ").append(tmp).append('\n'));
         return ans.toString();
 
     }

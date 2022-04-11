@@ -12,8 +12,7 @@ public class ShowComm extends AbstractComm{
         getMaker().getHistory_list().add("show");
         StringBuilder ans = new StringBuilder();
         ans.append("В коллекции ").append(getMaker().getDragons().size()).append(" элементов:").append('\n');
-        for (Dragon tmp : getMaker().getDragons())
-            ans.append(getMaker().getGson().toJson(tmp)).append('\n');
+        getMaker().getDragons().forEach(tmp->ans.append(getMaker().getGson().toJson(tmp)).append('\n'));
         return ans.toString();
     }
 }

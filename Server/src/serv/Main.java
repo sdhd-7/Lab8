@@ -1,9 +1,7 @@
 package serv;
 
 import com.google.gson.Gson;
-import commands.InfoComm;
-import commands.RemoveFirstComm;
-import commands.ShowComm;
+import commands.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,15 +14,16 @@ public class Main {
     public static void main(String[] args) throws IOException{
         Init maker = new Init(args[0]);
         System.out.println(new ShowComm(maker).make());
-        System.out.println(new RemoveFirstComm(maker).make());
-        System.out.println(new ShowComm(maker).make());
+        System.out.println(new AgeComm(maker).make("3"));
+        //System.out.println(new ShowComm(maker).make());
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        /*ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
         ObjectOutputStream oos = new ObjectOutputStream(baos);
 
-        oos.writeObject(new Gson().toJson(maker.getDragons()));
+        oos.writeObject(maker.getDragons().get(0));
         oos.flush();
         byte[] arr = baos.toByteArray();
+
         byte[] arr2 = new byte[10];
         int len = arr.length;
         int len2 = 10;
@@ -44,5 +43,7 @@ public class Main {
         System.out.println(arr.length);
         buf.flip();
         dc.send(buf2, addr);
+
+         */
     }
 }
