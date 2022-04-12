@@ -10,7 +10,6 @@ public class FilterByCharacterComm extends AbstractComm {
     @Override
     public synchronized String make(String s) {
         getMaker().getHistory_list().add("filter by character");
-        int k = 0;
         StringBuilder ans = new StringBuilder();
         getMaker().getDragons().stream().filter(x -> s.equalsIgnoreCase(x.getCharacter().toString())).forEachOrdered(x -> ans.append(getMaker().getGson().toJson(x)).append('\n'));
         return (ans.toString().length() > 0) ? ans.toString() :

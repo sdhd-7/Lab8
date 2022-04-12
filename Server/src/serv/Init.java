@@ -13,13 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class Init {
-    private List<Dragon> dragons = Collections.synchronizedList(new LinkedList<>());
-    private Type collectionType = new TypeToken<LinkedList<Dragon>>() {
-    }.getType();
-    private Gson gson = new Gson();
+    private final List<Dragon> dragons = Collections.synchronizedList(new LinkedList<>());
+    private final Gson gson = new Gson();
     private File file;
-    private LinkedList<String> history_list = new LinkedList<>();
-    private Date initdate;
+    private final List<String> history_list = Collections.synchronizedList(new LinkedList<>());
+    private final Date initdate;
 
     public Init(String filename) {
         try {
@@ -37,6 +35,8 @@ public final class Init {
                 result.append(nextLine);
 
             try {
+                Type collectionType = new TypeToken<LinkedList<Dragon>>() {
+                }.getType();
                 LinkedList<Dragon> addedDragon = gson.fromJson(result.toString(), collectionType);
                 for (Dragon s : addedDragon) {
                     if (!dragons.contains(s) && s.check()) dragons.add(s);
@@ -58,7 +58,7 @@ public final class Init {
      * Сохранят коллекцию в файл.
      */
     public void save() {
-        history_list.addFirst("save");
+        history_list.add("save");
         try (Writer writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(gson.toJson(dragons));
             System.out.println("Данные успешно сохранены");
@@ -71,7 +71,7 @@ public final class Init {
         return dragons;
     }
 
-    public LinkedList<String> getHistory_list() {
+    public List<String> getHistory_list() {
         return history_list;
     }
 

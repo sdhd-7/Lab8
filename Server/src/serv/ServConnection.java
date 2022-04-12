@@ -9,18 +9,13 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.util.Hashtable;
-import java.util.Scanner;
 
 public class ServConnection {
-    private Init maker;
     private SocketAddress addr;
-    private int port;
-    private Hashtable<String, AbstractComm> comm = new Hashtable<>();
+    private final Hashtable<String, AbstractComm> comm = new Hashtable<>();
 
 
     public ServConnection(int port, Init maker) {
-        this.port = port;
-        this.maker = maker;
         this.addr = new InetSocketAddress(port);
 
         comm.put("add", new AddComm(maker));
@@ -32,7 +27,7 @@ public class ServConnection {
         comm.put("history", new HistoryComm(maker));
         comm.put("info", new InfoComm(maker));
         comm.put("remove_by_id", new RemoveByIdComm(maker));
-        comm.put("remove_by_type", new RemoveByIdComm(maker));
+        comm.put("remove_by_type", new RemoveByTypeComm(maker));
         comm.put("remove_first", new RemoveFirstComm(maker));
         comm.put("show", new ShowComm(maker));
         comm.put("update", new UpdateComm(maker));
@@ -41,14 +36,11 @@ public class ServConnection {
     }
 
     public void go() throws IOException, ClassNotFoundException {
-        Scanner sc = new Scanner(System.in);
         DatagramChannel dc;
         dc = DatagramChannel.open();
         dc.bind(addr);
         while (true) {
-            byte arr[] = new byte[2048];
-
-            int len = arr.length;
+            byte[] arr = new byte[2048];
 
             ByteBuffer buf;
             buf = ByteBuffer.wrap(arr);

@@ -4,7 +4,7 @@ import programm.defaults.Dragon;
 import serv.Init;
 
 public abstract class AbstractComm {
-    private Init maker;
+    private final Init maker;
 
     public AbstractComm(Init maker) {
         this.maker = maker;

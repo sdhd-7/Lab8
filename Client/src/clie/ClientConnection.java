@@ -10,16 +10,7 @@ import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class ClientConnection {
-    private final Scanner input;
-    private InetAddress host;
-    private int port;
-
-    public ClientConnection(Scanner input, InetAddress host, int port) {
-        this.input = input;
-        this.host = host;
-        this.port = port;
-    }
+public record ClientConnection(Scanner input, InetAddress host, int port) {
 
     public void go() throws IOException, ClassNotFoundException {
         while (input.hasNextLine()) {
@@ -157,10 +148,12 @@ public class ClientConnection {
         //dragon type
         boolean fl = true;
         while (fl) {
-            System.out.println("Выберите один из данных типов дракона\nWATER\n" +
-                    "UNDERGROUND\n" +
-                    "AIR\n" +
-                    "FIRE");
+            System.out.println("""
+                    Выберите один из данных типов дракона
+                    WATER
+                    UNDERGROUND
+                    AIR
+                    FIRE""");
             tmp = input.nextLine();
             fl = false;
             switch (tmp) {
@@ -175,10 +168,12 @@ public class ClientConnection {
         //dragon character
         fl = true;
         while (fl) {
-            System.out.println("Выберите один из данных характеров дракона\nWISE\n" +
-                    "EVIL\n" +
-                    "CHAOTIC_EVIL\n" +
-                    "FICKLE");
+            System.out.println("""
+                    Выберите один из данных характеров дракона
+                    WISE
+                    EVIL
+                    CHAOTIC_EVIL
+                    FICKLE""");
             tmp = input.nextLine();
             fl = false;
             switch (tmp) {
@@ -227,12 +222,13 @@ public class ClientConnection {
             {
                 fl = true;
                 while (fl) {
-                    System.out.println("Выберите один из данных цветов волос драконоборца\n" +
-                            "BLACK\n" +
-                            "BLUE\n" +
-                            "WHITE\n" +
-                            "YELLOW\n" +
-                            "BROWN");
+                    System.out.println("""
+                            Выберите один из данных цветов волос драконоборца
+                            BLACK
+                            BLUE
+                            WHITE
+                            YELLOW
+                            BROWN""");
                     tmp = input.nextLine();
                     fl = false;
                     switch (tmp) {
@@ -252,12 +248,13 @@ public class ClientConnection {
                 fl = true;
 
                 while (fl) {
-                    System.out.println("Выберите один из данных цветов зрачка драконоборца\n" +
-                            "BLACK\n" +
-                            "BLUE\n" +
-                            "WHITE\n" +
-                            "YELLOW\n" +
-                            "BROWN");
+                    System.out.println("""
+                            Выберите один из данных цветов зрачка драконоборца
+                            BLACK
+                            BLUE
+                            WHITE
+                            YELLOW
+                            BROWN""");
                     tmp = input.nextLine();
                     fl = false;
                     switch (tmp) {
@@ -278,10 +275,11 @@ public class ClientConnection {
             {
                 fl = true;
                 while (fl) {
-                    System.out.println("Выберите одну из данных национальностей драконоборца\n" +
-                            "GERMANY\n" +
-                            "ITALY\n" +
-                            "SOUTH_KOREA");
+                    System.out.println("""
+                            Выберите одну из данных национальностей драконоборца
+                            GERMANY
+                            ITALY
+                            SOUTH_KOREA""");
                     tmp = input.nextLine();
                     fl = false;
                     switch (tmp) {

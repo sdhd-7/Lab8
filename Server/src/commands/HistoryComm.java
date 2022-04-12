@@ -2,8 +2,6 @@ package commands;
 
 import serv.Init;
 
-import java.util.LinkedList;
-
 public class HistoryComm extends AbstractComm {
 
     public HistoryComm(Init maker) {
@@ -13,12 +11,11 @@ public class HistoryComm extends AbstractComm {
     @Override
     public synchronized String make() {
         getMaker().getHistory_list().add("history");
-        LinkedList<String> history = getMaker().getHistory_list();
-        while (history.size() > 15) {
-            history.removeLast();
+        while (getMaker().getHistory_list().size() > 15) {
+            getMaker().getHistory_list().remove(15);
         }
         StringBuilder ans = new StringBuilder();
-        history.forEach(tmp -> ans.append("-> ").append(tmp).append('\n'));
+        getMaker().getHistory_list().forEach(tmp -> ans.append("-> ").append(tmp).append('\n'));
         return ans.toString();
 
     }
