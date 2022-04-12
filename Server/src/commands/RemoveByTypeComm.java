@@ -2,12 +2,13 @@ package commands;
 
 import serv.Init;
 
-public class RemoveByTypeComm extends AbstractComm{
-    public RemoveByTypeComm(Init m){
+public class RemoveByTypeComm extends AbstractComm {
+    public RemoveByTypeComm(Init m) {
         super(m);
     }
+
     @Override
-    public synchronized String make(String s){
+    public synchronized String make(String s) {
         getMaker().getHistory_list().add("remove by type");
         int tmp = getMaker().getDragons().size();
         getMaker().getDragons().removeIf(p -> s.equals(p.getType().toString()));

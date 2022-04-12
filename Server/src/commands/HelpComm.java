@@ -1,15 +1,14 @@
 package commands;
 
-import programm.defaults.Dragon;
 import serv.Init;
 
-public class HelpComm extends AbstractComm{
-    public HelpComm(Init maker){
+public class HelpComm extends AbstractComm {
+    public HelpComm(Init maker) {
         super(maker);
     }
 
     @Override
-    public synchronized String make(){
+    public synchronized String make() {
         getMaker().getHistory_list().add("help");
         return "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +

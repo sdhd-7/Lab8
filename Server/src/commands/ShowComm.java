@@ -1,18 +1,21 @@
 package commands;
 
-import programm.defaults.Dragon;
 import serv.Init;
 
-public class ShowComm extends AbstractComm{
-    public ShowComm(Init maker){
+import java.util.Collections;
+
+public class ShowComm extends AbstractComm {
+    public ShowComm(Init maker) {
         super(maker);
     }
+
     @Override
-    public synchronized String make(){
+    public synchronized String make() {
         getMaker().getHistory_list().add("show");
         StringBuilder ans = new StringBuilder();
         ans.append("В коллекции ").append(getMaker().getDragons().size()).append(" элементов:").append('\n');
-        getMaker().getDragons().forEach(tmp->ans.append(getMaker().getGson().toJson(tmp)).append('\n'));
+        Collections.sort(getMaker().getDragons());
+        getMaker().getDragons().stream().forEachOrdered(tmp -> ans.append(getMaker().getGson().toJson(tmp)).append('\n'));
         return ans.toString();
     }
 }

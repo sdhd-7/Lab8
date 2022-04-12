@@ -1,20 +1,11 @@
 package serv;
 
-import com.google.gson.Gson;
-import commands.*;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
 
 public class Main {
-    public static void main(String[] args) throws IOException{
-        Init maker = new Init(args[0]);
-        System.out.println(new ShowComm(maker).make());
-        System.out.println(new AgeComm(maker).make("3"));
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ServConnection serv = new ServConnection(1337, new Init(args[0]));
+        serv.go();
         //System.out.println(new ShowComm(maker).make());
 
         /*ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);

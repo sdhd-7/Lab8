@@ -3,13 +3,13 @@ package commands;
 import programm.defaults.Dragon;
 import serv.Init;
 
-public class AddComm extends AbstractComm{
-    public AddComm(Init maker){
+public class AddComm extends AbstractComm {
+    public AddComm(Init maker) {
         super(maker);
     }
 
     @Override
-    public synchronized String make(Dragon arg){
+    public synchronized String make(Dragon arg) {
         getMaker().getHistory_list().add("add");
         arg.setId((long) (Math.random() * 543323));
         getMaker().getDragons().add(arg);

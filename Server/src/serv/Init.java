@@ -1,12 +1,16 @@
 package serv;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import programm.defaults.Dragon;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Init {
     private List<Dragon> dragons = Collections.synchronizedList(new LinkedList<>());
@@ -20,7 +24,7 @@ public final class Init {
     public Init(String filename) {
         try {
             file = new File(filename);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.err.println("Файл не существует, либо не доступен для чтения");
             System.exit(1);
         }
@@ -67,7 +71,7 @@ public final class Init {
         return dragons;
     }
 
-    public LinkedList<String> getHistory_list(){
+    public LinkedList<String> getHistory_list() {
         return history_list;
     }
 
