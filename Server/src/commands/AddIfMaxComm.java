@@ -1,6 +1,6 @@
 package commands;
 
-import programm.defaults.Dragon;
+import classes.Dragon;
 import serv.Init;
 
 import java.util.Collections;

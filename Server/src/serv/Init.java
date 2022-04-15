@@ -1,9 +1,9 @@
 package serv;
 
+import classes.Dragon;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import programm.defaults.Dragon;
 
 import java.io.*;
 import java.lang.reflect.Type;

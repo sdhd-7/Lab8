@@ -1,7 +1,6 @@
 package clie;
 
-import programm.defaults.*;
-import programm.helper.MessagePacket;
+import classes.*;
 
 import java.io.*;
 import java.net.DatagramPacket;
@@ -10,7 +9,17 @@ import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public record ClientConnection(Scanner input, InetAddress host, int port) {
+public class ClientConnection {
+
+    private final Scanner input;
+    private final InetAddress host;
+    private final int port;
+
+    public ClientConnection(Scanner input, InetAddress host, int port) {
+        this.host = host;
+        this.input = input;
+        this.port = port;
+    }
 
     public void go() throws IOException, ClassNotFoundException {
         while (input.hasNextLine()) {
@@ -184,156 +193,9 @@ public record ClientConnection(Scanner input, InetAddress host, int port) {
                 default -> fl = true;
             }
         }
-
-        //Killer
-
-        System.out.println("Жив ли дракон? Y/N");
-
-        tmp = input.nextLine();
-        while (!(tmp.equals("Y") || tmp.equals("N"))) {
-            System.out.println("Жив ли дракон, введите Y/n?: ");
-            tmp = input.nextLine();
-        }
-        if (tmp.equals("Y")) {
-            temp.setKiller(null);
-        } else {
-            Person lol = new Person();
-
-            //name killer
-            System.out.println("Введите имя драконоборца: ");
-            tmp = input.nextLine();
-            while (tmp.equals("")) {
-                //System.out.println("Имя не может быть пустым, введите имя: ");
-                tmp = input.nextLine();
-            }
-            lol.setName(tmp);
-
-            //killer passport
-            System.out.println("Введите паспорт драконоборца: ");
-            tmp = input.nextLine();
-            while (!(tmp.length() < 35 && tmp.length() >= 4 || tmp.length() == 0)) {
-                System.out.println("количество символов в паспорте должно быть не меньше 4 и не больше 34, введите паспорт: ");
-                tmp = input.nextLine();
-            }
-            if (tmp.length() != 0)
-                lol.setPassportID(tmp);
-
-            //hair color
-            {
-                fl = true;
-                while (fl) {
-                    System.out.println("""
-                            Выберите один из данных цветов волос драконоборца
-                            BLACK
-                            BLUE
-                            WHITE
-                            YELLOW
-                            BROWN""");
-                    tmp = input.nextLine();
-                    fl = false;
-                    switch (tmp) {
-                        case "BLACK" -> lol.setHairColor(Color.BLACK);
-                        case "BLUE" -> lol.setHairColor(Color.BLUE);
-                        case "WHITE" -> lol.setHairColor(Color.WHITE);
-                        case "YELLOW" -> lol.setHairColor(Color.YELLOW);
-                        case "BROWN" -> lol.setHairColor(Color.BROWN);
-                        case "" -> lol.setHairColor(null);
-                        default -> fl = true;
-                    }
-                }
-            }
-
-            //eyes color
-            {
-                fl = true;
-
-                while (fl) {
-                    System.out.println("""
-                            Выберите один из данных цветов зрачка драконоборца
-                            BLACK
-                            BLUE
-                            WHITE
-                            YELLOW
-                            BROWN""");
-                    tmp = input.nextLine();
-                    fl = false;
-                    switch (tmp) {
-                        case "BLACK" -> lol.setEyeColor(Color.BLACK);
-                        case "BLUE" -> lol.setEyeColor(Color.BLUE);
-                        case "WHITE" -> lol.setEyeColor(Color.WHITE);
-                        case "YELLOW" -> lol.setEyeColor(Color.YELLOW);
-                        case "BROWN" -> lol.setEyeColor(Color.BROWN);
-                        case "" -> lol.setEyeColor(null);
-                        default -> fl = true;
-                    }
-
-                }
-            }
-
-            //nationality
-
-            {
-                fl = true;
-                while (fl) {
-                    System.out.println("""
-                            Выберите одну из данных национальностей драконоборца
-                            GERMANY
-                            ITALY
-                            SOUTH_KOREA""");
-                    tmp = input.nextLine();
-                    fl = false;
-                    switch (tmp) {
-                        case "GERMANY" -> lol.setNationality(Country.GERMANY);
-                        case "ITALY" -> lol.setNationality(Country.ITALY);
-                        case "SOUTH_KOREA" -> lol.setNationality(Country.SOUTH_KOREA);
-                        case "" -> lol.setHairColor(null);
-                        default -> fl = true;
-                    }
-                }
-            }
-
-            //location
-            {
-                System.out.println("Знаете ли вы месторасположение драконоборца? Y/N");
-
-                tmp = input.nextLine();
-                while (!(tmp.equals("Y") || tmp.equals("N"))) {
-                    System.out.println("Знаете ли вы месторасположение драконоборца, введите Y/N?: ");
-                    tmp = input.nextLine();
-                }
-                if (tmp.equals("N")) {
-                    lol.setLocation(null);
-                } else {
-                    System.out.println("Введите координату X: ");
-                    tmp = input.nextLine();
-                    while (tmp.equals("")) {
-
-                        System.out.println("Введите координату X: ");
-                        tmp = input.nextLine();
-                    }
-                    x = Long.parseLong(tmp);
-                    System.out.println("Введите координату Y: ");
-                    tmp = input.nextLine();
-                    while (tmp.equals("")) {
-
-                        System.out.println("Введите координату Y: ");
-                        tmp = input.nextLine();
-                    }
-                    y = Long.parseLong(tmp);
-                    System.out.println("Укажите название местности: ");
-                    tmp = input.nextLine();
-                    while (tmp.equals("")) {
-
-                        System.out.println("Укажите название местности: ");
-                        tmp = input.nextLine();
-                    }
-                    lol.setLocation(new Location(x, y, tmp));
-                }
-            }
-            temp.setKiller(lol);
-        }
         return temp;
     }
+
 
     private String send(MessagePacket packet) throws IOException, ClassNotFoundException {
 
@@ -362,3 +224,4 @@ public record ClientConnection(Scanner input, InetAddress host, int port) {
     }
 
 }
+

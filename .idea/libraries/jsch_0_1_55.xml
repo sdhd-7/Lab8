@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="lab5">
+  <library name="jsch-0.1.55">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../lab5/out/artifacts/lab5_jar/lab5.jar!/" />
+      <root url="jar://D:/jar_files/jsch-0.1.55.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

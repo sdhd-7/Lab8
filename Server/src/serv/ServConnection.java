@@ -1,7 +1,7 @@
 package serv;
 
+import classes.MessagePacket;
 import commands.*;
-import programm.helper.MessagePacket;
 
 import java.io.*;
 import java.net.InetSocketAddress;
