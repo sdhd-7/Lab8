@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         DBManager.getInstance();
-        ServConnection serv = new ServConnection(1337, new Init(args[0]));
+        ServConnection serv = new ServConnection(1337, new Init());
         serv.go();
         //System.out.println(new ShowComm(maker).make());
 

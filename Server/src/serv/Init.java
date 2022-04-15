@@ -1,12 +1,19 @@
 package serv;
 
+import classes.Coordinates;
 import classes.Dragon;
+import classes.DragonCharacter;
+import classes.DragonType;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
+import managers.DBManager;
 
-import java.io.*;
+import java.io.File;
 import java.lang.reflect.Type;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -19,51 +26,71 @@ public final class Init {
     private final List<String> history_list = Collections.synchronizedList(new LinkedList<>());
     private final Date initdate;
 
-    public Init(String filename) {
-        try {
-            file = new File(filename);
-        } catch (Exception ex) {
-            System.err.println("Файл не существует, либо не доступен для чтения");
-            System.exit(1);
-        }
-        this.initdate = new Date();
-        try (BufferedReader inputStreamReader = new BufferedReader(new FileReader(file))) {
-            System.out.println("Идёт загрузка коллекции " + filename);
-            String nextLine;
-            StringBuilder result = new StringBuilder();
-            while ((nextLine = inputStreamReader.readLine()) != null)
-                result.append(nextLine);
+    private static volatile Init instance;
 
-            try {
-                Type collectionType = new TypeToken<LinkedList<Dragon>>() {
-                }.getType();
-                LinkedList<Dragon> addedDragon = gson.fromJson(result.toString(), collectionType);
-                for (Dragon s : addedDragon) {
-                    if (!dragons.contains(s) && s.check()) dragons.add(s);
-                }
-            } catch (JsonSyntaxException ex) {
-                System.err.println("Ошибка синтаксиса Json. Коллекция не может быть загружена.");
-                System.exit(1);
-            }
-            System.out.println("Коллекция успешно загружена. Добавлено " + dragons.size() + " элементов.");
-        } catch (Exception ex) {
-            System.err.println("Файл не существует или недоступен для чтения.");
-            System.err.println(ex.getMessage());
-            System.exit(1);
-        }
-
+    public Init() {
+        initdate = new Date();
+        System.out.println(load());
     }
 
-    /**
-     * Сохранят коллекцию в файл.
-     */
-    public void save() {
-        history_list.add("save");
-        try (Writer writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(gson.toJson(dragons));
-            System.out.println("Данные успешно сохранены");
-        } catch (Exception ex) {
-            System.out.println("Коллекция не может быть записана в файл.");
+    public static Init getInstance() {
+
+        Init instance2 = instance;
+        if (instance2 == null) {
+            synchronized (Init.class) {
+                instance2 = instance;
+                if (instance2 == null) instance = instance2 = new Init();
+            }
+        }
+        return instance;
+    }
+
+    public String save() {
+        System.out.println("lol");
+        try (Connection connect = DBManager.getInstance().getConnection();
+             Statement req = connect.createStatement()) {
+            connect.setAutoCommit(false);
+            req.addBatch("DELETE from dragon");
+            for (Dragon tmp : dragons) {
+                System.out.println(tmp.getId());
+                req.addBatch("insert into dragon VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
+                        tmp.getCoordinates().getX() + ',' + tmp.getCoordinates().getY() + ",'" +
+                        gson.toJson(tmp.getCreationDate()) + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +
+                        gson.toJson(tmp.getType()) + "','" + gson.toJson(tmp.getCharacter()) + "','" + tmp.getLogin() + "')");
+            }
+            req.executeBatch();
+            connect.commit();
+            return "Коллекция успешно сохранена.";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "не удалось сохранить коллекцию.";
+        }
+    }
+
+    public String load() {
+        try {
+            ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM dragon");
+            dragons.clear();
+            while (tmp.next()) {
+                Dragon kek = new Dragon();
+                long x, y;
+                kek.setId(tmp.getLong("id"));
+                kek.setCharacter(gson.fromJson(tmp.getString("character"), (Type) DragonCharacter.class));
+                kek.setType(gson.fromJson(tmp.getString("type"), (Type) DragonType.class));
+                x = tmp.getLong("x");
+                y = tmp.getLong("y");
+                kek.setCoordinates(new Coordinates(x, y));
+                kek.setCreationDate(gson.fromJson(tmp.getString("creationdate"), LocalDateTime.class));
+                kek.setLogin(tmp.getString("login"));
+                kek.setAge(tmp.getInt("age"));
+                kek.setSpeaking(tmp.getBoolean("speaking"));
+                kek.setName(tmp.getString("name"));
+                dragons.add(kek);
+            }
+            return "Загружено " + dragons.size() + " новых элементов.";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Не удалось загрузить элементы";
         }
     }
 

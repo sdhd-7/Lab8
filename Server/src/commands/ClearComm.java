@@ -11,6 +11,7 @@ public class ClearComm extends AbstractComm {
     public synchronized String make() {
         getMaker().getHistory_list().add("clear");
         getMaker().getDragons().clear();
+        getMaker().save();
         return "Коллекция успешно очищена";
     }
 }

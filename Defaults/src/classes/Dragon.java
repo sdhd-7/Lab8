@@ -41,6 +41,8 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      */
     private DragonCharacter character; //Поле не может быть null
 
+    private String login;
+
     public boolean check() {
         return id > 0 && !name.isEmpty() && age > 0;
     }
@@ -71,6 +73,14 @@ public class Dragon implements Comparable<Dragon>, Serializable {
 
     public DragonType getType() {
         return type;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public void setType(DragonType type) {

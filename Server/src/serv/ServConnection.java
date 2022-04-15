@@ -53,11 +53,11 @@ public class ServConnection {
 
             MessagePacket packout;
             if (tmp.getObj() != null) {
-                packout = new MessagePacket(comm.get(tmp.getComm()).make(tmp.getObj()));
+                packout = new MessagePacket(comm.get(tmp.getComm()).make(tmp.getObj()), "");
             } else if (tmp.getArg() != null) {
-                packout = new MessagePacket(comm.get(tmp.getComm()).make(tmp.getArg()));
+                packout = new MessagePacket(comm.get(tmp.getComm()).make(tmp.getArg()), "");
             } else {
-                packout = new MessagePacket(comm.get(tmp.getComm()).make());
+                packout = new MessagePacket(comm.get(tmp.getComm()).make(), "");
             }
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);

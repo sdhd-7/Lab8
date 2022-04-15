@@ -22,6 +22,23 @@ public class ClientConnection {
     }
 
     public void go() throws IOException, ClassNotFoundException {
+        String login, password;
+        System.out.println("Введите логин, если у вас еще нет аккаунта, введите 'reg'");
+        login = input.nextLine();
+        MessagePacket log;
+        if (login.equalsIgnoreCase("reg")) {
+            System.out.println("Введите желаемый логин:");
+            login = input.nextLine();
+            System.out.println("Введите желаемый пароль:");
+            password = input.nextLine();
+            log = new MessagePacket("newlogin", password, login);
+        } else {
+            System.out.println("Введите пароль:");
+            password = input.nextLine();
+            log = new MessagePacket("login", password, login);
+        }
+
+        //TODO добавить проверку повторяющегося логина и проверку пароля.
         while (input.hasNextLine()) {
 
             String sinp = input.nextLine();
@@ -41,7 +58,7 @@ public class ClientConnection {
                         wrong();
                         break;
                     }
-                    packet = new MessagePacket(scom[0]);
+                    packet = new MessagePacket(scom[0], login);
                     break;
                 case "exit":
                     if (scom.length != 1) {
@@ -57,7 +74,7 @@ public class ClientConnection {
                         break;
                     }
                     tmp = newDragon();
-                    packet = new MessagePacket(scom[0], tmp);
+                    packet = new MessagePacket(scom[0], tmp, login);
                     break;
                 case "update":
                     if (scom.length != 2) {
@@ -73,7 +90,7 @@ public class ClientConnection {
                     }
                     tmp = newDragon();
                     tmp.setId(tmpid);
-                    packet = new MessagePacket(scom[0], tmp);
+                    packet = new MessagePacket(scom[0], tmp, login);
                     break;
                 case "remove_by_id":
                 case "remove_all_by_type":
@@ -83,7 +100,7 @@ public class ClientConnection {
                         wrong();
                         break;
                     }
-                    packet = new MessagePacket(scom[0], scom[1]);
+                    packet = new MessagePacket(scom[0], scom[1], login);
                     break;
                 default:
                     wrong();
@@ -216,9 +233,6 @@ public class ClientConnection {
         return tmp.getComm();
     }
 
-    /**
-     * Уведомляет пользователя о неверно введенной команде.
-     */
     private void wrong() {
         System.out.println("Введена неверная команда, чтобы ознакомиться со списком доступных команд, введите команду help");
     }

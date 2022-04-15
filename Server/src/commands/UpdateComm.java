@@ -15,6 +15,7 @@ public class UpdateComm extends AbstractComm {
             Dragon tmp = getMaker().getDragons().stream().filter(x -> x.getId() == arg.getId()).findFirst().get();
             getMaker().getDragons().remove(tmp);
             getMaker().getDragons().add(arg);
+            getMaker().save();
             return "Элемент с id " + arg.getId() + " успешно обновлен.";
         } catch (Exception e) {
             return "В коллекции нет элемента с id " + arg.getId();

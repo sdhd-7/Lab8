@@ -12,7 +12,7 @@ public class RemoveByTypeComm extends AbstractComm {
         getMaker().getHistory_list().add("remove by type");
         int tmp = getMaker().getDragons().size();
         getMaker().getDragons().removeIf(p -> s.equals(p.getType().toString()));
-
+        getMaker().save();
         if (tmp == getMaker().getDragons().size())
             return "В коллекции нет драконов с таким типом или тип был введен неверно.";
         else

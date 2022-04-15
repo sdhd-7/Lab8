@@ -1,55 +1,5 @@
 [
   {
-    "id": 203734,
-    "name": "1",
-    "coordinates": {
-      "x": 1,
-      "y": 2
-    },
-    "creationDate": {
-      "date": {
-        "year": 2022,
-        "month": 4,
-        "day": 12
-      },
-      "time": {
-        "hour": 10,
-        "minute": 51,
-        "second": 41,
-        "nano": 893333200
-      }
-    },
-    "age": 2,
-    "speaking": true,
-    "type": "AIR",
-    "character": "WISE"
-  },
-  {
-    "id": 326818,
-    "name": "1",
-    "coordinates": {
-      "x": 1,
-      "y": 1
-    },
-    "creationDate": {
-      "date": {
-        "year": 2022,
-        "month": 4,
-        "day": 12
-      },
-      "time": {
-        "hour": 17,
-        "minute": 55,
-        "second": 42,
-        "nano": 978658000
-      }
-    },
-    "age": 2,
-    "speaking": true,
-    "type": "AIR",
-    "character": "WISE"
-  },
-  {
     "id": 73617,
     "name": "Belka",
     "coordinates": {
@@ -72,17 +22,7 @@
     "age": 3,
     "speaking": false,
     "type": "AIR",
-    "character": "FICKLE",
-    "killer": {
-      "name": "Анатолий",
-      "passportID": "",
-      "eyeColor": "BLACK",
-      "location": {
-        "x": 54,
-        "y": 66,
-        "name": "Церковь"
-      }
-    }
+    "character": "FICKLE"
   },
   {
     "id": 486094,
@@ -132,13 +72,7 @@
     "age": 1594,
     "speaking": true,
     "type": "UNDERGROUND",
-    "character": "CHAOTIC_EVIL",
-    "killer": {
-      "name": "Ranger",
-      "eyeColor": "WHITE",
-      "hairColor": "BLUE",
-      "nationality": "ITALY"
-    }
+    "character": "CHAOTIC_EVIL"
   },
   {
     "id": 348819,
@@ -188,25 +122,14 @@
     "age": 782,
     "speaking": true,
     "type": "WATER",
-    "character": "WISE",
-    "killer": {
-      "name": "Ленивый Клинок",
-      "eyeColor": "BROWN",
-      "hairColor": "BLUE",
-      "nationality": "SOUTH_KOREA",
-      "location": {
-        "x": 5,
-        "y": 2,
-        "name": "Azir"
-      }
-    }
+    "character": "WISE"
   },
   {
-    "id": 290590,
-    "name": "1",
+    "id": 415873,
+    "name": "KENT",
     "coordinates": {
-      "x": 1,
-      "y": 2
+      "x": 345,
+      "y": 109
     },
     "creationDate": {
       "date": {
@@ -216,14 +139,14 @@
       },
       "time": {
         "hour": 18,
-        "minute": 24,
-        "second": 37,
-        "nano": 683588700
+        "minute": 34,
+        "second": 20,
+        "nano": 169522400
       }
     },
-    "age": 2,
+    "age": 993,
     "speaking": true,
-    "type": "AIR",
-    "character": "EVIL"
+    "type": "FIRE",
+    "character": "FICKLE"
   }
 ]

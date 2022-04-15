@@ -13,4 +13,12 @@ public class Coordinates implements Serializable {
         this.x = x;
         this.y = y;
     }
+
+    public long getX() {
+        return x;
+    }
+
+    public long getY() {
+        return y;
+    }
 }

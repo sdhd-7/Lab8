@@ -17,6 +17,7 @@ public class AddIfMaxComm extends AbstractComm {
             Dragon competitor = Collections.max(getMaker().getDragons());
             if (competitor.compareTo(mainCompetitor) < 0) {
                 getMaker().getDragons().add(mainCompetitor);
+                getMaker().save();
                 return "Элемент успешно добавлен.";
             } else return "Не удалось добавить элемент.";
         } else return "Элемент не с чем сравнивать. Коллекция пуста.";

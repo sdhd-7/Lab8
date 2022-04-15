@@ -14,6 +14,7 @@ public class RemoveFirstComm extends AbstractComm {
             return "Коллекция пуста";
         else {
             getMaker().getDragons().remove(0);
+            getMaker().save();
             return "Первый элемент успешно удален";
         }
     }

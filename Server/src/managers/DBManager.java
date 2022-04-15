@@ -43,7 +43,7 @@ public final class DBManager {
         }
     }
 
-    public static void getInstance() {
+    public static DBManager getInstance() {
         DBManager instance2 = instance;
         if (instance2 == null) {
             synchronized (DBManager.class) {
@@ -51,6 +51,7 @@ public final class DBManager {
                 if (instance2 == null) instance = new DBManager();
             }
         }
+        return instance;
     }
 
     public Connection getConnection() throws SQLException {

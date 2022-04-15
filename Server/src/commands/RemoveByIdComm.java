@@ -18,6 +18,7 @@ public class RemoveByIdComm extends AbstractComm {
         }
         int tmp = getMaker().getDragons().size();
         getMaker().getDragons().removeIf(p -> p.getId() == id);
+        getMaker().save();
         if (tmp == getMaker().getDragons().size())
             return "В коллекции нет элемента с id " + id;
         else
