@@ -46,13 +46,13 @@ public final class Init {
     }
 
     public String save() {
-        System.out.println("lol");
+        //System.out.println("lol");
         try (Connection connect = DBManager.getInstance().getConnection();
              Statement req = connect.createStatement()) {
             connect.setAutoCommit(false);
             req.addBatch("DELETE from dragon");
             for (Dragon tmp : dragons) {
-                System.out.println(tmp.getId());
+                //System.out.println(tmp.getId());
                 req.addBatch("insert into dragon VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
                         tmp.getCoordinates().getX() + ',' + tmp.getCoordinates().getY() + ",'" +
                         gson.toJson(tmp.getCreationDate()) + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +

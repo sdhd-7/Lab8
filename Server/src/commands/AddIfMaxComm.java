@@ -19,7 +19,7 @@ public class AddIfMaxComm extends AbstractComm {
             Dragon competitor = Collections.max(getMaker().getDragons());
             if (competitor.compareTo(mainCompetitor) < 0) {
                 try {
-                    DBManager.getInstance().getConnection().createStatement().executeQuery("" +
+                    DBManager.getInstance().getConnection().createStatement().execute("" +
                             "insert into dragon VALUES (" + mainCompetitor.getId() + ",'" + mainCompetitor.getName() + "'," +
                             mainCompetitor.getCoordinates().getX() + ',' + mainCompetitor.getCoordinates().getY() + ",'" +
                             getMaker().getGson().toJson(mainCompetitor.getCreationDate()) + "'," + mainCompetitor.getAge()

@@ -9,10 +9,11 @@ public class UpdateComm extends AbstractComm {
     }
 
     @Override
-    public synchronized String make(Dragon arg) {
+    public synchronized String make(Dragon arg, String login) {
         try {
             getMaker().getHistory_list().add("update by id");
-            Dragon tmp = getMaker().getDragons().stream().filter(x -> x.getId() == arg.getId()).findFirst().get();
+            Dragon tmp = getMaker().getDragons().stream().filter(x -> x.getId() == arg.getId() &&
+                    x.getLogin().equalsIgnoreCase(login)).findFirst().get();
             getMaker().getDragons().remove(tmp);
             getMaker().getDragons().add(arg);
             getMaker().save();

@@ -72,53 +72,60 @@ public class ServConnection {
                     throw new RuntimeException(e);
                 }
 
-
-            };
-            Runnable makem = () -> {
-                if (tmp.get().getComm().equalsIgnoreCase("newlogin")) {
-                    packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getLogin(), tmp.get().getArg()), ""));
-                } else if (tmp.get().getComm().equalsIgnoreCase("login")) {
-                    packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getLogin(), tmp.get().getArg()), ""));
-                } else if (tmp.get().getObj() != null) {
-                    packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getObj()), ""));
-                } else if (tmp.get().getArg() != null) {
-                    packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getArg()), ""));
-                } else {
-                    packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(), ""));
-                }
-            };
-            Runnable sendm = () -> {
-                while (packout == null) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                Runnable makem = () -> {
+                    if (tmp.get().getComm().equalsIgnoreCase("newlogin") ||
+                            tmp.get().getComm().equalsIgnoreCase("login")) {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getLogin(), tmp.get().getArg()), ""));
+                    } else if (tmp.get().getComm().equalsIgnoreCase("remove_by_id") ||
+                            tmp.get().getComm().equalsIgnoreCase("remove_by_type")) {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getArg(), tmp.get().getLogin()), ""));
+                    } else if (tmp.get().getComm().equalsIgnoreCase("update")) {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getObj(), tmp.get().getLogin()), ""));
+                    } else if (tmp.get().getObj() != null) {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getObj()), ""));
+                    } else if (tmp.get().getArg() != null) {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getArg()), ""));
+                    } else {
+                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(), ""));
                     }
-                }
-                byte[] arr;
-                ByteBuffer buf;
-                ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
-                ObjectOutputStream oos = null;
-                try {
-                    oos = new ObjectOutputStream(baos);
-                    oos.writeObject(packout);
-                    arr = baos.toByteArray();
-                    buf = ByteBuffer.wrap(arr);
-                    dc.send(buf, addr.get());
+                    Runnable sendm = () -> {
+                        while (packout == null) {
+                            try {
+                                wait();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        byte[] arr;
+                        ByteBuffer buf;
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
+                        ObjectOutputStream oos = null;
+                        try {
+                            oos = new ObjectOutputStream(baos);
+                            oos.writeObject(packout.get());
+                            arr = baos.toByteArray();
+                            buf = ByteBuffer.wrap(arr);
+                            dc.send(buf, addr.get());
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                notify();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+                    Thread kek2 = new Thread(sendm);
+                    kek2.start();
+                };
+                service.submit(makem);
             };
+
 
             Thread kek = new Thread(takem);
-            Thread kek2 = new Thread(sendm);
+
             System.out.println("lol");
             kek.start();
+            System.out.println(kek.getName());
             kek.join();
-            service.submit(makem);
-            kek2.start();
+            System.out.println("ppp");
+
         }
     }
 }

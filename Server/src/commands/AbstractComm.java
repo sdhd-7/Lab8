@@ -26,6 +26,10 @@ public abstract class AbstractComm {
         return this.make();
     }
 
+    public synchronized String make(Dragon arg, String login) {
+        return this.make();
+    }
+
     public Init getMaker() {
         return maker;
     }
