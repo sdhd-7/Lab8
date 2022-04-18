@@ -18,6 +18,10 @@ public abstract class AbstractComm {
         return this.make();
     }
 
+    public synchronized String make(String log, String pass) {
+        return this.make();
+    }
+
     public synchronized String make(Dragon arg) {
         return this.make();
     }

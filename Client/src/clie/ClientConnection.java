@@ -3,9 +3,12 @@ package clie;
 import classes.*;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -22,23 +25,28 @@ public class ClientConnection {
     }
 
     public void go() throws IOException, ClassNotFoundException {
-        String login, password;
-        System.out.println("Введите логин, если у вас еще нет аккаунта, введите 'reg'");
-        login = input.nextLine();
-        MessagePacket log;
-        if (login.equalsIgnoreCase("reg")) {
-            System.out.println("Введите желаемый логин:");
-            login = input.nextLine();
-            System.out.println("Введите желаемый пароль:");
-            password = input.nextLine();
-            log = new MessagePacket("newlogin", password, login);
-        } else {
-            System.out.println("Введите пароль:");
-            password = input.nextLine();
-            log = new MessagePacket("login", password, login);
-        }
+        String login = null, password, kek = "";
+        while (!(kek.equalsIgnoreCase("Успешная авторизация") ||
+                kek.equalsIgnoreCase("Успешное добавление пользователя и авторизация"))) {
+            System.out.println("Введите логин, если у вас еще нет аккаунта, введите 'reg'");
 
-        //TODO добавить проверку повторяющегося логина и проверку пароля.
+            login = input.nextLine();
+            MessagePacket log;
+            if (login.equalsIgnoreCase("reg")) {
+                System.out.println("Введите желаемый логин:");
+                login = input.nextLine();
+                System.out.println("Введите желаемый пароль:");
+                password = input.nextLine();
+                log = new MessagePacket("newlogin", SHA512(password), login);
+            } else {
+                System.out.println("Введите пароль:");
+                password = input.nextLine();
+                log = new MessagePacket("login", SHA512(password), login);
+            }
+            System.out.println(SHA512(password));
+            kek = send(log);
+            System.out.println(kek);
+        }
         while (input.hasNextLine()) {
 
             String sinp = input.nextLine();
@@ -74,6 +82,7 @@ public class ClientConnection {
                         break;
                     }
                     tmp = newDragon();
+                    tmp.setLogin(login);
                     packet = new MessagePacket(scom[0], tmp, login);
                     break;
                 case "update":
@@ -90,6 +99,7 @@ public class ClientConnection {
                     }
                     tmp = newDragon();
                     tmp.setId(tmpid);
+                    tmp.setLogin(login);
                     packet = new MessagePacket(scom[0], tmp, login);
                     break;
                 case "remove_by_id":
@@ -237,5 +247,16 @@ public class ClientConnection {
         System.out.println("Введена неверная команда, чтобы ознакомиться со списком доступных команд, введите команду help");
     }
 
+    private String SHA512(String in) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            byte[] messageDigest = md.digest(in.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            return no.toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
 

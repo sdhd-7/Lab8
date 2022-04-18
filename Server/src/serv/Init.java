@@ -60,6 +60,7 @@ public final class Init {
             }
             req.executeBatch();
             connect.commit();
+            load();
             return "Коллекция успешно сохранена.";
         } catch (SQLException e) {
             e.printStackTrace();
