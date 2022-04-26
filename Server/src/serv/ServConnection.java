@@ -43,7 +43,7 @@ public class ServConnection {
 
     }
 
-    public void go() throws IOException, InterruptedException {
+    public void go() throws InterruptedException {
 
         int i = 0;
         while (i < 1000) {
@@ -89,13 +89,13 @@ public class ServConnection {
                         packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(), ""));
                     }
                     Runnable sendm = () -> {
-                        while (packout == null) {
+                        /*while (packout == null) {
                             try {
                                 wait();
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
-                        }
+                        }*/
                         byte[] arr;
                         ByteBuffer buf;
                         ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
