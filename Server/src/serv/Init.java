@@ -7,7 +7,6 @@ import classes.DragonType;
 import com.google.gson.Gson;
 import managers.DBManager;
 
-import java.io.File;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,7 +21,6 @@ import java.util.List;
 public final class Init {
     private final List<Dragon> dragons = Collections.synchronizedList(new LinkedList<>());
     private final Gson gson = new Gson();
-    private File file;
     private final List<String> history_list = Collections.synchronizedList(new LinkedList<>());
     private final Date initdate;
 
