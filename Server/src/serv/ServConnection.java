@@ -2,11 +2,13 @@ package serv;
 
 import classes.MessagePacket;
 import commands.*;
+import threadss.Makem;
+import threadss.Sendm;
+import threadss.Takem;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.util.Hashtable;
 import java.util.concurrent.ExecutorService;
@@ -43,89 +45,21 @@ public class ServConnection {
 
     }
 
-    public void go() throws InterruptedException {
-
-        int i = 0;
-        while (i < 1000) {
-            i++;
-            System.out.println(i);
+    public void go() throws IOException, InterruptedException {
+        do {
+            //System.out.println(i);
             AtomicReference<SocketAddress> addr = new AtomicReference<>();
             AtomicReference<MessagePacket> tmp = new AtomicReference<>();
             AtomicReference<MessagePacket> packout = new AtomicReference<>();
 
-            Runnable takem = () -> {
+            Sendm send = new Sendm(packout, dc, addr);
+            Makem make = new Makem(tmp, packout, comm, send);
+            Takem take = new Takem(tmp, dc, addr, make);
 
-                try {
-                    byte[] arr = new byte[4096];
-                    ByteBuffer buf;
-                    buf = ByteBuffer.wrap(arr);
-                    System.out.println("popa");
-                    SocketAddress sa = dc.receive(buf);
-                    System.out.println(sa);
-                    addr.set(sa);
-                    System.out.println(addr.get());
-                    ByteArrayInputStream bis = new ByteArrayInputStream(arr);
-                    ObjectInputStream oin = new ObjectInputStream(bis);
-                    tmp.set((MessagePacket) oin.readObject());
-                    System.out.println(tmp.get().getComm());
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Runnable makem = () -> {
-                    if (tmp.get().getComm().equalsIgnoreCase("newlogin") ||
-                            tmp.get().getComm().equalsIgnoreCase("login")) {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getLogin(), tmp.get().getArg()), ""));
-                    } else if (tmp.get().getComm().equalsIgnoreCase("remove_by_id") ||
-                            tmp.get().getComm().equalsIgnoreCase("remove_by_type")) {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getArg(), tmp.get().getLogin()), ""));
-                    } else if (tmp.get().getComm().equalsIgnoreCase("update")) {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getObj(), tmp.get().getLogin()), ""));
-                    } else if (tmp.get().getObj() != null) {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getObj()), ""));
-                    } else if (tmp.get().getArg() != null) {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(tmp.get().getArg()), ""));
-                    } else {
-                        packout.set(new MessagePacket(comm.get(tmp.get().getComm()).make(), ""));
-                    }
-                    Runnable sendm = () -> {
-                        /*while (packout == null) {
-                            try {
-                                wait();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }*/
-                        byte[] arr;
-                        ByteBuffer buf;
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
-                        ObjectOutputStream oos = null;
-                        try {
-                            oos = new ObjectOutputStream(baos);
-                            oos.writeObject(packout.get());
-                            arr = baos.toByteArray();
-                            buf = ByteBuffer.wrap(arr);
-                            dc.send(buf, addr.get());
-
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    };
-                    Thread kek2 = new Thread(sendm);
-                    kek2.start();
-                };
-                service.submit(makem);
-            };
-
-
-            Thread kek = new Thread(takem);
-
-            System.out.println("lol");
-            kek.start();
-            System.out.println(kek.getName());
-            kek.join();
-            System.out.println("ppp");
-
-        }
+            take.start();
+            service.submit(make);
+            send.start();
+            take.join();
+        } while (true);
     }
 }

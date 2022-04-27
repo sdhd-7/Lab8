@@ -43,7 +43,7 @@ public class ClientConnection {
                 password = input.nextLine();
                 log = new MessagePacket("login", SHA512(password), login);
             }
-            System.out.println(SHA512(password));
+            //System.out.println(SHA512(password));
             kek = send(log);
             System.out.println(kek);
         }
