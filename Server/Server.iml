@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="gson-2.8.5" level="project" />
-    <orderEntry type="library" name="jsch-0.1.55" level="project" />
-    <orderEntry type="library" name="postgresql-42.2.5" level="project" />
-    <orderEntry type="library" name="Defaults" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.8.5" level="project" />
+    <orderEntry type="library" exported="" name="jsch-0.1.55" level="project" />
+    <orderEntry type="library" exported="" name="postgresql-42.2.5" level="project" />
+    <orderEntry type="library" exported="" name="Defaults" level="project" />
   </component>
 </module>
