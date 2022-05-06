@@ -224,7 +224,7 @@ public class ClientConnection {
     }
 
 
-    private String send(MessagePacket packet) throws IOException, ClassNotFoundException {
+    public String send(MessagePacket packet) throws IOException, ClassNotFoundException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
         ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -247,7 +247,7 @@ public class ClientConnection {
         System.out.println("Введена неверная команда, чтобы ознакомиться со списком доступных команд, введите команду help");
     }
 
-    private String SHA512(String in) {
+    public String SHA512(String in) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             byte[] messageDigest = md.digest(in.getBytes());
