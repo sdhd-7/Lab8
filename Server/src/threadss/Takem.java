@@ -32,7 +32,7 @@ public class Takem extends Thread {
             buf = ByteBuffer.wrap(arr);
             //System.out.println("popa");
             SocketAddress sa = dc.receive(buf);
-            //System.out.println(sa);
+            System.out.println(sa);
             addr.set(sa);
             //System.out.println(addr.get());
             ByteArrayInputStream bis = new ByteArrayInputStream(arr);

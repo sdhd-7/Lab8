@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
@@ -16,12 +17,19 @@ public class ClientConnection {
 
     private final Scanner input;
     private final InetAddress host;
+
+    private final DatagramSocket ds;
     private final int port;
 
     public ClientConnection(Scanner input, InetAddress host, int port) {
         this.host = host;
         this.input = input;
         this.port = port;
+        try {
+            this.ds = new DatagramSocket();
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void go() throws IOException, ClassNotFoundException {
@@ -47,9 +55,9 @@ public class ClientConnection {
             kek = send(log);
             System.out.println(kek);
         }
-        while (input.hasNextLine()) {
+        while (true || input.hasNextLine()) {
 
-            String sinp = input.nextLine();
+            String sinp = "info";
             String[] scom = sinp.trim().split(" ");
             MessagePacket packet = new MessagePacket();
             Dragon tmp;
@@ -231,7 +239,7 @@ public class ClientConnection {
 
         oos.writeObject(packet);
         byte[] arr = baos.toByteArray(), ars = new byte[4096];
-        DatagramSocket ds = new DatagramSocket();
+
         DatagramPacket dps = new DatagramPacket(arr, arr.length, host, port);
         ds.send(dps);
         DatagramPacket dpr = new DatagramPacket(ars, ars.length);

@@ -45,7 +45,7 @@ public class ServConnection {
 
     }
 
-    public void go() throws IOException, InterruptedException {
+    public void go() throws InterruptedException {
         do {
             //System.out.println(i);
             AtomicReference<SocketAddress> addr = new AtomicReference<>();
