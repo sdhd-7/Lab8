@@ -1,6 +1,7 @@
 package threadss;
 
 import classes.MessagePacket;
+import serv.ServConnection;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -8,12 +9,15 @@ import java.io.ObjectInputStream;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Takem extends Thread {
     private final AtomicReference<MessagePacket> tmp;
     private final DatagramChannel dc;
     private final AtomicReference<SocketAddress> addr;
+
     private final Makem make;
 
     public Takem(AtomicReference<MessagePacket> tmp, DatagramChannel dc, AtomicReference<SocketAddress> addr, Makem make) {
@@ -32,7 +36,10 @@ public class Takem extends Thread {
             buf = ByteBuffer.wrap(arr);
             //System.out.println("popa");
             SocketAddress sa = dc.receive(buf);
-            System.out.println(sa);
+            //System.out.print(sa + " ");
+            Date dateNow = new Date();
+            SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
+            System.out.println(formatForDateNow.format(dateNow));
             addr.set(sa);
             //System.out.println(addr.get());
             ByteArrayInputStream bis = new ByteArrayInputStream(arr);
@@ -42,6 +49,9 @@ public class Takem extends Thread {
             synchronized (make) {
                 make.notify();
             }
+            ServConnection.count--;
+            //System.out.println(ServConnection.count);
+
             //System.out.println("lol");
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

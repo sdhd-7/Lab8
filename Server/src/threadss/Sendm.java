@@ -27,6 +27,7 @@ public class Sendm extends Thread {
             synchronized (this) {
                 this.wait();
             }
+            //System.out.println(packout.get().getComm() + "*****");
             ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(packout.get());

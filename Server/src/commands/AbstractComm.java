@@ -3,11 +3,12 @@ package commands;
 import classes.Dragon;
 import serv.Init;
 
-public abstract class AbstractComm {
-    private final Init maker;
+import java.util.List;
 
-    public AbstractComm(Init maker) {
-        this.maker = maker;
+public abstract class AbstractComm {
+
+
+    public AbstractComm() {
     }
 
     public synchronized String make() {
@@ -22,6 +23,10 @@ public abstract class AbstractComm {
         return this.make();
     }
 
+    public synchronized String make(String log, String pass, int col) {
+        return this.make();
+    }
+
     public synchronized String make(Dragon arg) {
         return this.make();
     }
@@ -30,7 +35,10 @@ public abstract class AbstractComm {
         return this.make();
     }
 
-    public Init getMaker() {
-        return maker;
+
+    public synchronized List<Dragon> maker() {
+        return Init.getInstance().getDragons();
     }
+
+
 }

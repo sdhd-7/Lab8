@@ -11,5 +11,6 @@
     <orderEntry type="library" name="jsch-0.1.55" level="project" />
     <orderEntry type="library" name="postgresql-42.2.5" level="project" />
     <orderEntry type="library" name="Defaults" level="project" />
+    <orderEntry type="library" name="flatlaf-2.3" level="project" />
   </component>
 </module>

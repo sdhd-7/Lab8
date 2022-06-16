@@ -7,7 +7,7 @@ import classes.DragonType;
 import com.google.gson.Gson;
 import managers.DBManager;
 
-import java.lang.reflect.Type;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public final class Init {
         return instance;
     }
 
-    public String save() {
+    public void save() {
         //System.out.println("lol");
         try (Connection connect = DBManager.getInstance().getConnection();
              Statement req = connect.createStatement()) {
@@ -53,37 +53,40 @@ public final class Init {
                 //System.out.println(tmp.getId());
                 req.addBatch("insert into dragon VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
                         tmp.getCoordinates().getX() + ',' + tmp.getCoordinates().getY() + ",'" +
-                        gson.toJson(tmp.getCreationDate()) + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +
-                        gson.toJson(tmp.getType()) + "','" + gson.toJson(tmp.getCharacter()) + "','" + tmp.getLogin() + "')");
+                        tmp.getCreationDate().toString() + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +
+                        tmp.getType().toString() + "','" + tmp.getCharacter().toString() + "','" + tmp.getLogin() + "')");
             }
             req.executeBatch();
             connect.commit();
             load();
-            return "Коллекция успешно сохранена.";
+            System.out.println("Коллекция успешно сохранена.");
         } catch (SQLException e) {
             e.printStackTrace();
-            return "не удалось сохранить коллекцию.";
+            System.out.println("не удалось сохранить коллекцию.");
         }
     }
 
     public String load() {
         try {
+            System.out.println("kek");
             ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM dragon");
             dragons.clear();
             while (tmp.next()) {
                 Dragon kek = new Dragon();
                 long x, y;
                 kek.setId(tmp.getLong("id"));
-                kek.setCharacter(gson.fromJson(tmp.getString("character"), (Type) DragonCharacter.class));
-                kek.setType(gson.fromJson(tmp.getString("type"), (Type) DragonType.class));
+                System.out.println(tmp.getString("character") + " " + tmp.getString("character").getClass());
+                kek.setCharacter(DragonCharacter.valueOf(tmp.getString("character")));
+                kek.setType(DragonType.valueOf(tmp.getString("type")));
                 x = tmp.getLong("x");
                 y = tmp.getLong("y");
                 kek.setCoordinates(new Coordinates(x, y));
-                kek.setCreationDate(gson.fromJson(tmp.getString("creationdate"), LocalDateTime.class));
+                kek.setCreationDate(LocalDateTime.parse(tmp.getString("creationdate")));
                 kek.setLogin(tmp.getString("login"));
                 kek.setAge(tmp.getInt("age"));
                 kek.setSpeaking(tmp.getBoolean("speaking"));
                 kek.setName(tmp.getString("name"));
+                kek.setCol(new Color(tmp.getInt("color")));
                 dragons.add(kek);
             }
             return "Загружено " + dragons.size() + " новых элементов.";

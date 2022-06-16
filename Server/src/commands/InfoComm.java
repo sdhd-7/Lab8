@@ -3,13 +3,13 @@ package commands;
 import serv.Init;
 
 public class InfoComm extends AbstractComm {
-    public InfoComm(Init maker) {
-        super(maker);
+    public InfoComm() {
+        super();
     }
 
     @Override
     public synchronized String make() {
-        getMaker().getHistory_list().add("info");
-        return getMaker().toString();
+        Init.getInstance().getHistory_list().add("info");
+        return Init.getInstance().toString();
     }
 }

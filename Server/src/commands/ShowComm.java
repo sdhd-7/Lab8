@@ -5,17 +5,17 @@ import serv.Init;
 import java.util.Collections;
 
 public class ShowComm extends AbstractComm {
-    public ShowComm(Init maker) {
-        super(maker);
+    public ShowComm() {
+        super();
     }
 
     @Override
     public synchronized String make() {
-        getMaker().getHistory_list().add("show");
+        Init.getInstance().getHistory_list().add("show");
         StringBuilder ans = new StringBuilder();
-        ans.append("В коллекции ").append(getMaker().getDragons().size()).append(" элементов:").append('\n');
-        Collections.sort(getMaker().getDragons());
-        getMaker().getDragons().forEach(tmp -> ans.append(getMaker().getGson().toJson(tmp)).append('\n'));
+        ans.append("В коллекции ").append(Init.getInstance().getDragons().size()).append(" элементов:").append('\n');
+        Collections.sort(Init.getInstance().getDragons());
+        Init.getInstance().getDragons().forEach(tmp -> ans.append(Init.getInstance().getGson().toJson(tmp)).append('\n'));
         return ans.toString();
     }
 }

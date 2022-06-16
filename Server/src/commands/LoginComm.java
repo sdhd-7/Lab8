@@ -1,14 +1,13 @@
 package commands;
 
 import managers.DBManager;
-import serv.Init;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginComm extends AbstractComm {
-    public LoginComm(Init m) {
-        super(m);
+    public LoginComm() {
+        super();
     }
 
     @Override

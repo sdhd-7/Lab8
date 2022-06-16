@@ -1,13 +1,19 @@
 package classes;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MessagePacket implements Serializable {
     private String comm;
 
+    private int col;
     private String login;
     private String arg;
     private Dragon obj;
+
+    private List<Dragon> dragons = Collections.synchronizedList(new LinkedList<>());
     private boolean use = false;
 
     public MessagePacket() {
@@ -32,6 +38,26 @@ public class MessagePacket implements Serializable {
         this.obj = obj;
         this.login = lg;
         use = true;
+    }
+
+    public List<Dragon> getDragons() {
+        return dragons;
+    }
+
+    public void setDragons(List<Dragon> dragons) {
+        this.dragons = dragons;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setComm(String comm) {
+        this.comm = comm;
     }
 
     public String getComm() {

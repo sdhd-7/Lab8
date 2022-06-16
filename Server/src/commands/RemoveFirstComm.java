@@ -3,18 +3,18 @@ package commands;
 import serv.Init;
 
 public class RemoveFirstComm extends AbstractComm {
-    public RemoveFirstComm(Init m) {
-        super(m);
+    public RemoveFirstComm() {
+        super();
     }
 
     @Override
     public synchronized String make() {
-        getMaker().getHistory_list().add("remove first");
-        if (getMaker().getDragons().size() == 0)
+        Init.getInstance().getHistory_list().add("remove first");
+        if (Init.getInstance().getDragons().size() == 0)
             return "Коллекция пуста";
         else {
-            getMaker().getDragons().remove(0);
-            getMaker().save();
+            Init.getInstance().getDragons().remove(0);
+            Init.getInstance().save();
             return "Первый элемент успешно удален";
         }
     }

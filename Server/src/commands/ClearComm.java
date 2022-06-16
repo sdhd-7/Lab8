@@ -3,15 +3,15 @@ package commands;
 import serv.Init;
 
 public class ClearComm extends AbstractComm {
-    public ClearComm(Init maker) {
-        super(maker);
+    public ClearComm() {
+        super();
     }
 
     @Override
     public synchronized String make() {
-        getMaker().getHistory_list().add("clear");
-        getMaker().getDragons().clear();
-        getMaker().save();
+        Init.getInstance().getHistory_list().add("clear");
+        Init.getInstance().getDragons().clear();
+        Init.getInstance().save();
         return "Коллекция успешно очищена";
     }
 }

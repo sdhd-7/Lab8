@@ -1,5 +1,6 @@
 package classes;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,6 +43,16 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     private DragonCharacter character; //Поле не может быть null
 
     private String login;
+
+    private Color col;
+
+    public Color getCol() {
+        return col;
+    }
+
+    public void setCol(Color col) {
+        this.col = col;
+    }
 
     public boolean check() {
         return id > 0 && !name.isEmpty() && age > 0;
@@ -118,6 +129,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     public void setSpeaking(boolean speaking) {
         this.speaking = speaking;
     }
+
 
     @Override
     public int compareTo(Dragon o) {

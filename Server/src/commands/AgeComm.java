@@ -3,20 +3,18 @@ package commands;
 import serv.Init;
 
 public class AgeComm extends AbstractComm {
-    public AgeComm(Init maker) {
-        super(maker);
+    public AgeComm() {
+        super();
     }
 
     @Override
     public synchronized String make(String s) {
-        getMaker().getHistory_list().add("count by age");
-        int age;
-        try {
-            age = Integer.parseInt(s);
-        } catch (Exception ex) {
-            return "Неверный формат возраста.";
-        }
-        int count = (int) getMaker().getDragons().stream().filter(x -> x.getAge() == age).count();
-        return "В коллекции нашлось " + count + " драконов в возрасте " + age;
+        //System.out.println("&&&&&&&&&&&&&&&&");
+        Init.getInstance().getHistory_list().add("count by age");
+        int age = Integer.parseInt(s);
+        //System.out.println(age + "^^^^");
+        int count = (int) Init.getInstance().getDragons().stream().filter(x -> x.getAge() == age).count();
+        //System.out.println(count);
+        return "" + count;
     }
 }
