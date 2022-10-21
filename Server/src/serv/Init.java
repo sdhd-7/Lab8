@@ -48,13 +48,14 @@ public final class Init {
         try (Connection connect = DBManager.getInstance().getConnection();
              Statement req = connect.createStatement()) {
             connect.setAutoCommit(false);
-            req.addBatch("DELETE from dragon");
+            req.addBatch("DELETE from dragons");
             for (Dragon tmp : dragons) {
                 //System.out.println(tmp.getId());
-                req.addBatch("insert into dragon VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
+                req.addBatch("insert into dragons VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
                         tmp.getCoordinates().getX() + ',' + tmp.getCoordinates().getY() + ",'" +
                         tmp.getCreationDate().toString() + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +
-                        tmp.getType().toString() + "','" + tmp.getCharacter().toString() + "','" + tmp.getLogin() + "')");
+                        tmp.getType().toString() + "','" + tmp.getCharacter().toString() + "','" + tmp.getLogin() +
+                        "'," + tmp.getCol().getRGB() + ")");
             }
             req.executeBatch();
             connect.commit();
@@ -69,7 +70,7 @@ public final class Init {
     public String load() {
         try {
             System.out.println("kek");
-            ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM dragon");
+            ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM dragons");
             dragons.clear();
             while (tmp.next()) {
                 Dragon kek = new Dragon();

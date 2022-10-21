@@ -1,4 +1,4 @@
-package form.forms;
+package form;
 
 
 import classes.Dragon;
@@ -56,10 +56,10 @@ public class MajorNew extends javax.swing.JFrame {
         this.logins = logins;
 
         initComponents();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
         this.setIconImage(icon.getImage());
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("form/local");
-        table.setModel(new DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
 
                 },
@@ -72,11 +72,11 @@ public class MajorNew extends javax.swing.JFrame {
                 }
         ) {
             final Class[] types = new Class[]{
-                    Long.class, String.class,
-                    Long.class, Long.class,
-                    Integer.class, Boolean.class,
-                    String.class, String.class,
-                    String.class, String.class
+                    java.lang.Long.class, java.lang.String.class,
+                    java.lang.Long.class, java.lang.Long.class,
+                    java.lang.Integer.class, java.lang.Boolean.class,
+                    java.lang.String.class, java.lang.String.class,
+                    java.lang.String.class, java.lang.String.class
             };
 
             @Override
@@ -153,7 +153,7 @@ public class MajorNew extends javax.swing.JFrame {
         });
 
         table.setAutoCreateRowSorter(true);
-        table.setModel(new DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
 
                 },
@@ -162,7 +162,7 @@ public class MajorNew extends javax.swing.JFrame {
                 }
         ) {
             final Class[] types = new Class[]{
-                    Long.class, String.class, Long.class, Long.class, Integer.class, Boolean.class, String.class, String.class, String.class, String.class
+                    java.lang.Long.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

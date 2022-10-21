@@ -1,4 +1,4 @@
-package form.forms;
+package form;
 
 
 import classes.MessagePacket;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * @author adgjw
  */
-public class Login extends JFrame {
+public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form login
@@ -48,7 +48,7 @@ public class Login extends JFrame {
         this.con = tmp;
         this.logins = "";
         initComponents();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
         this.setIconImage(icon.getImage());
     }
 
@@ -84,7 +84,7 @@ public class Login extends JFrame {
         setLocation(new java.awt.Point(500, 500));
         setLocationByPlatform(true);
 
-        mainpanel.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        mainpanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         mainpanel.setToolTipText(bundle.getString("Login.mainpanel.toolTipText")); // NOI18N
 
         welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -177,7 +177,7 @@ public class Login extends JFrame {
 
         jMenu1.setText(bundle1.getString("lang")); // NOI18N
 
-        enL.setIcon(new ImageIcon(getClass().getResource("/form/icons/icons8_great_britain_15px.png"))); // NOI18N
+        enL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_great_britain_15px.png"))); // NOI18N
         enL.setText(bundle1.getString("lang.EN")); // NOI18N
         enL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +186,7 @@ public class Login extends JFrame {
         });
         jMenu1.add(enL);
 
-        ruL.setIcon(new ImageIcon(getClass().getResource("/form/icons/icons8_russian_federation_15px_3.png"))); // NOI18N
+        ruL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_russian_federation_15px_3.png"))); // NOI18N
         ruL.setText(bundle1.getString("lang.RU")); // NOI18N
         ruL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,7 +195,7 @@ public class Login extends JFrame {
         });
         jMenu1.add(ruL);
 
-        grL.setIcon(new ImageIcon(getClass().getResource("/form/icons/icons8_greece_15px.png"))); // NOI18N
+        grL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_greece_15px.png"))); // NOI18N
         grL.setText(bundle1.getString("lang.GR")); // NOI18N
         grL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,7 +204,7 @@ public class Login extends JFrame {
         });
         jMenu1.add(grL);
 
-        roL.setIcon(new ImageIcon(getClass().getResource("/form/icons/icons8_romania_15px.png"))); // NOI18N
+        roL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_romania_15px.png"))); // NOI18N
         roL.setText(bundle1.getString("lang.RO")); // NOI18N
         roL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +213,7 @@ public class Login extends JFrame {
         });
         jMenu1.add(roL);
 
-        jMenuItem5.setIcon(new ImageIcon(getClass().getResource("/form/icons/icons8_south_africa_15px.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_south_africa_15px.png"))); // NOI18N
         jMenuItem5.setText(bundle1.getString("lang.ZA")); // NOI18N
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

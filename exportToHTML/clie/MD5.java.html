@@ -1,0 +1,296 @@
+<html>
+<head>
+<title>MD5.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d55fde; font-style: italic;}
+.s1 { color: #bbbbbb;}
+.s2 { color: #89ca78;}
+.s3 { color: #5c6370; font-style: italic;}
+.s4 { color: #d19a66;}
+.ln { color: #495162; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#282c34">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MD5.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">clie;</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">public class </span><span class="s1">MD5 {</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a>    <span class="s0">static final </span><span class="s1">String hexs[]={</span><span class="s2">&quot;0&quot;</span><span class="s1">,</span><span class="s2">&quot;1&quot;</span><span class="s1">,</span><span class="s2">&quot;2&quot;</span><span class="s1">,</span><span class="s2">&quot;3&quot;</span><span class="s1">,</span><span class="s2">&quot;4&quot;</span><span class="s1">,</span><span class="s2">&quot;5&quot;</span><span class="s1">,</span><span class="s2">&quot;6&quot;</span><span class="s1">,</span><span class="s2">&quot;7&quot;</span><span class="s1">,</span><span class="s2">&quot;8&quot;</span><span class="s1">,</span><span class="s2">&quot;9&quot;</span><span class="s1">,</span><span class="s2">&quot;A&quot;</span><span class="s1">,</span><span class="s2">&quot;B&quot;</span><span class="s1">,</span><span class="s2">&quot;C&quot;</span><span class="s1">,</span><span class="s2">&quot;D&quot;</span><span class="s1">,</span><span class="s2">&quot;E&quot;</span><span class="s1">,</span><span class="s2">&quot;F&quot;</span><span class="s1">};</span>
+<a name="l6"><span class="ln">6    </span></a>    <span class="s3">// Стандартное магическое число</span>
+<a name="l7"><span class="ln">7    </span></a>    <span class="s0">private static final long </span><span class="s1">A=</span><span class="s4">0x67452301L</span><span class="s1">;</span>
+<a name="l8"><span class="ln">8    </span></a>    <span class="s0">private static final long </span><span class="s1">B=</span><span class="s4">0xefcdab89L</span><span class="s1">;</span>
+<a name="l9"><span class="ln">9    </span></a>    <span class="s0">private static final long </span><span class="s1">C=</span><span class="s4">0x98badcfeL</span><span class="s1">;</span>
+<a name="l10"><span class="ln">10   </span></a>    <span class="s0">private static final long </span><span class="s1">D=</span><span class="s4">0x10325476L</span><span class="s1">;</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a>    <span class="s3">// Следующие S11-S44 представляют собой матрицу 4 * 4, которая используется в операции четырехэтапного цикла</span>
+<a name="l14"><span class="ln">14   </span></a>    <span class="s0">static final int </span><span class="s1">S11 = </span><span class="s4">7</span><span class="s1">;</span>
+<a name="l15"><span class="ln">15   </span></a>    <span class="s0">static final int </span><span class="s1">S12 = </span><span class="s4">12</span><span class="s1">;</span>
+<a name="l16"><span class="ln">16   </span></a>    <span class="s0">static final int </span><span class="s1">S13 = </span><span class="s4">17</span><span class="s1">;</span>
+<a name="l17"><span class="ln">17   </span></a>    <span class="s0">static final int </span><span class="s1">S14 = </span><span class="s4">22</span><span class="s1">;</span>
+<a name="l18"><span class="ln">18   </span></a>
+<a name="l19"><span class="ln">19   </span></a>    <span class="s0">static final int </span><span class="s1">S21 = </span><span class="s4">5</span><span class="s1">;</span>
+<a name="l20"><span class="ln">20   </span></a>    <span class="s0">static final int </span><span class="s1">S22 = </span><span class="s4">9</span><span class="s1">;</span>
+<a name="l21"><span class="ln">21   </span></a>    <span class="s0">static final int </span><span class="s1">S23 = </span><span class="s4">14</span><span class="s1">;</span>
+<a name="l22"><span class="ln">22   </span></a>    <span class="s0">static final int </span><span class="s1">S24 = </span><span class="s4">20</span><span class="s1">;</span>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a>    <span class="s0">static final int </span><span class="s1">S31 = </span><span class="s4">4</span><span class="s1">;</span>
+<a name="l25"><span class="ln">25   </span></a>    <span class="s0">static final int </span><span class="s1">S32 = </span><span class="s4">11</span><span class="s1">;</span>
+<a name="l26"><span class="ln">26   </span></a>    <span class="s0">static final int </span><span class="s1">S33 = </span><span class="s4">16</span><span class="s1">;</span>
+<a name="l27"><span class="ln">27   </span></a>    <span class="s0">static final int </span><span class="s1">S34 = </span><span class="s4">23</span><span class="s1">;</span>
+<a name="l28"><span class="ln">28   </span></a>
+<a name="l29"><span class="ln">29   </span></a>    <span class="s0">static final int </span><span class="s1">S41 = </span><span class="s4">6</span><span class="s1">;</span>
+<a name="l30"><span class="ln">30   </span></a>    <span class="s0">static final int </span><span class="s1">S42 = </span><span class="s4">10</span><span class="s1">;</span>
+<a name="l31"><span class="ln">31   </span></a>    <span class="s0">static final int </span><span class="s1">S43 = </span><span class="s4">15</span><span class="s1">;</span>
+<a name="l32"><span class="ln">32   </span></a>    <span class="s0">static final int </span><span class="s1">S44 = </span><span class="s4">21</span><span class="s1">;</span>
+<a name="l33"><span class="ln">33   </span></a>
+<a name="l34"><span class="ln">34   </span></a>    <span class="s3">// Java не поддерживает беззнаковые базовые данные (беззнаковые)</span>
+<a name="l35"><span class="ln">35   </span></a>    <span class="s0">private long </span><span class="s1">[] result = {A, B, C, D}; </span><span class="s3">// Сохраняем результат хеширования, всего 4 × 32 = 128 бит, и начальное значение (каскад магических чисел)</span>
+<a name="l36"><span class="ln">36   </span></a>
+<a name="l37"><span class="ln">37   </span></a>    <span class="s0">public static void </span><span class="s1">main(String []args){</span>
+<a name="l38"><span class="ln">38   </span></a>        <span class="s1">MD5 md=</span><span class="s0">new </span><span class="s1">MD5();</span>
+<a name="l39"><span class="ln">39   </span></a>        <span class="s1">System.out.println(</span><span class="s2">&quot;md5(abc)=&quot;</span><span class="s1">+md.digest(</span><span class="s2">&quot;abc&quot;</span><span class="s1">));</span>
+<a name="l40"><span class="ln">40   </span></a>    <span class="s1">}</span>
+<a name="l41"><span class="ln">41   </span></a>
+<a name="l42"><span class="ln">42   </span></a>    <span class="s0">private </span><span class="s1">String digest(String inputStr){</span>
+<a name="l43"><span class="ln">43   </span></a>        <span class="s0">byte </span><span class="s1">[] inputBytes=inputStr.getBytes();</span>
+<a name="l44"><span class="ln">44   </span></a>        <span class="s0">int </span><span class="s1">byteLen = inputBytes.length; </span><span class="s3">// Длина (байты)</span>
+<a name="l45"><span class="ln">45   </span></a>        <span class="s0">int </span><span class="s1">groupCount = </span><span class="s4">0</span><span class="s1">; </span><span class="s3">// Количество полных групп</span>
+<a name="l46"><span class="ln">46   </span></a>        <span class="s1">groupCount = byteLen / </span><span class="s4">64</span><span class="s1">; </span><span class="s3">// 512 бит на группу (64 байта)</span>
+<a name="l47"><span class="ln">47   </span></a>        <span class="s0">long </span><span class="s1">[] groups = </span><span class="s0">null</span><span class="s1">; </span><span class="s3">// каждая группа (64 байта), а затем разделены на 16 групп (4 байта)</span>
+<a name="l48"><span class="ln">48   </span></a>
+<a name="l49"><span class="ln">49   </span></a>        <span class="s3">// Обработка каждой полной группы</span>
+<a name="l50"><span class="ln">50   </span></a>        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">step=</span><span class="s4">0</span><span class="s1">;step&lt;groupCount;step++){</span>
+<a name="l51"><span class="ln">51   </span></a>            <span class="s1">groups=divGroup(inputBytes,step*</span><span class="s4">64</span><span class="s1">);</span>
+<a name="l52"><span class="ln">52   </span></a>            <span class="s1">trans (groups); </span><span class="s3">// Группировка обработки, основной алгоритм</span>
+<a name="l53"><span class="ln">53   </span></a>        <span class="s1">}</span>
+<a name="l54"><span class="ln">54   </span></a>
+<a name="l55"><span class="ln">55   </span></a>        <span class="s3">// Обрабатываем хвост после полной группировки</span>
+<a name="l56"><span class="ln">56   </span></a>        <span class="s0">int </span><span class="s1">rest = byteLen% </span><span class="s4">64</span><span class="s1">; </span><span class="s3">// остаток после 512-битной группировки</span>
+<a name="l57"><span class="ln">57   </span></a>        <span class="s0">byte </span><span class="s1">[] tempBytes=</span><span class="s0">new byte</span><span class="s1">[</span><span class="s4">64</span><span class="s1">];</span>
+<a name="l58"><span class="ln">58   </span></a>        <span class="s0">if</span><span class="s1">(rest&lt;=</span><span class="s4">56</span><span class="s1">){</span>
+<a name="l59"><span class="ln">59   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;rest;i++)</span>
+<a name="l60"><span class="ln">60   </span></a>                <span class="s1">tempBytes[i]=inputBytes[byteLen-rest+i];</span>
+<a name="l61"><span class="ln">61   </span></a>            <span class="s0">if</span><span class="s1">(rest&lt;</span><span class="s4">56</span><span class="s1">){</span>
+<a name="l62"><span class="ln">62   </span></a>                <span class="s1">tempBytes[rest]=(</span><span class="s0">byte</span><span class="s1">)(</span><span class="s4">1</span><span class="s1">&lt;&lt;</span><span class="s4">7</span><span class="s1">);</span>
+<a name="l63"><span class="ln">63   </span></a>                <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">1</span><span class="s1">;i&lt;</span><span class="s4">56</span><span class="s1">-rest;i++)</span>
+<a name="l64"><span class="ln">64   </span></a>                    <span class="s1">tempBytes[rest+i]=</span><span class="s4">0</span><span class="s1">;</span>
+<a name="l65"><span class="ln">65   </span></a>            <span class="s1">}</span>
+<a name="l66"><span class="ln">66   </span></a>            <span class="s0">long </span><span class="s1">len=(</span><span class="s0">long</span><span class="s1">)(byteLen&lt;&lt;</span><span class="s4">3</span><span class="s1">);</span>
+<a name="l67"><span class="ln">67   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;</span><span class="s4">8</span><span class="s1">;i++){</span>
+<a name="l68"><span class="ln">68   </span></a>                <span class="s1">tempBytes[</span><span class="s4">56</span><span class="s1">+i]=(</span><span class="s0">byte</span><span class="s1">)(len&amp;</span><span class="s4">0xFFL</span><span class="s1">);</span>
+<a name="l69"><span class="ln">69   </span></a>                <span class="s1">len=len&gt;&gt;</span><span class="s4">8</span><span class="s1">;</span>
+<a name="l70"><span class="ln">70   </span></a>            <span class="s1">}</span>
+<a name="l71"><span class="ln">71   </span></a>            <span class="s1">groups=divGroup(tempBytes,</span><span class="s4">0</span><span class="s1">);</span>
+<a name="l72"><span class="ln">72   </span></a>            <span class="s1">trans (groups); </span><span class="s3">// группа обработки</span>
+<a name="l73"><span class="ln">73   </span></a>        <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+<a name="l74"><span class="ln">74   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;rest;i++)</span>
+<a name="l75"><span class="ln">75   </span></a>                <span class="s1">tempBytes[i]=inputBytes[byteLen-rest+i];</span>
+<a name="l76"><span class="ln">76   </span></a>            <span class="s1">tempBytes[rest]=(</span><span class="s0">byte</span><span class="s1">)(</span><span class="s4">1</span><span class="s1">&lt;&lt;</span><span class="s4">7</span><span class="s1">);</span>
+<a name="l77"><span class="ln">77   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=rest+</span><span class="s4">1</span><span class="s1">;i&lt;</span><span class="s4">64</span><span class="s1">;i++)</span>
+<a name="l78"><span class="ln">78   </span></a>                <span class="s1">tempBytes[i]=</span><span class="s4">0</span><span class="s1">;</span>
+<a name="l79"><span class="ln">79   </span></a>            <span class="s1">groups=divGroup(tempBytes,</span><span class="s4">0</span><span class="s1">);</span>
+<a name="l80"><span class="ln">80   </span></a>            <span class="s1">trans (groups); </span><span class="s3">// группа обработки</span>
+<a name="l81"><span class="ln">81   </span></a>
+<a name="l82"><span class="ln">82   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;</span><span class="s4">56</span><span class="s1">;i++)</span>
+<a name="l83"><span class="ln">83   </span></a>                <span class="s1">tempBytes[i]=</span><span class="s4">0</span><span class="s1">;</span>
+<a name="l84"><span class="ln">84   </span></a>            <span class="s0">long </span><span class="s1">len=(</span><span class="s0">long</span><span class="s1">)(byteLen&lt;&lt;</span><span class="s4">3</span><span class="s1">);</span>
+<a name="l85"><span class="ln">85   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;</span><span class="s4">8</span><span class="s1">;i++){</span>
+<a name="l86"><span class="ln">86   </span></a>                <span class="s1">tempBytes[</span><span class="s4">56</span><span class="s1">+i]=(</span><span class="s0">byte</span><span class="s1">)(len&amp;</span><span class="s4">0xFFL</span><span class="s1">);</span>
+<a name="l87"><span class="ln">87   </span></a>                <span class="s1">len=len&gt;&gt;</span><span class="s4">8</span><span class="s1">;</span>
+<a name="l88"><span class="ln">88   </span></a>            <span class="s1">}</span>
+<a name="l89"><span class="ln">89   </span></a>            <span class="s1">groups=divGroup(tempBytes,</span><span class="s4">0</span><span class="s1">);</span>
+<a name="l90"><span class="ln">90   </span></a>            <span class="s1">trans (groups); </span><span class="s3">// группа обработки</span>
+<a name="l91"><span class="ln">91   </span></a>        <span class="s1">}</span>
+<a name="l92"><span class="ln">92   </span></a>
+<a name="l93"><span class="ln">93   </span></a>        <span class="s3">// Преобразуем значение хэша в шестнадцатеричную строку</span>
+<a name="l94"><span class="ln">94   </span></a>        <span class="s1">String resStr=</span><span class="s2">&quot;&quot;</span><span class="s1">;</span>
+<a name="l95"><span class="ln">95   </span></a>        <span class="s0">long </span><span class="s1">temp=</span><span class="s4">0</span><span class="s1">;</span>
+<a name="l96"><span class="ln">96   </span></a>        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;</span><span class="s4">4</span><span class="s1">;i++){</span>
+<a name="l97"><span class="ln">97   </span></a>            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">j=</span><span class="s4">0</span><span class="s1">;j&lt;</span><span class="s4">4</span><span class="s1">;j++){</span>
+<a name="l98"><span class="ln">98   </span></a>                <span class="s1">temp=result[i]&amp;</span><span class="s4">0x0FL</span><span class="s1">;</span>
+<a name="l99"><span class="ln">99   </span></a>                <span class="s1">String a=hexs[(</span><span class="s0">int</span><span class="s1">)(temp)];</span>
+<a name="l100"><span class="ln">100  </span></a>                <span class="s1">result[i]=result[i]&gt;&gt;</span><span class="s4">4</span><span class="s1">;</span>
+<a name="l101"><span class="ln">101  </span></a>                <span class="s1">temp=result[i]&amp;</span><span class="s4">0x0FL</span><span class="s1">;</span>
+<a name="l102"><span class="ln">102  </span></a>                <span class="s1">resStr+=hexs[(</span><span class="s0">int</span><span class="s1">)(temp)]+a;</span>
+<a name="l103"><span class="ln">103  </span></a>                <span class="s1">result[i]=result[i]&gt;&gt;</span><span class="s4">4</span><span class="s1">;</span>
+<a name="l104"><span class="ln">104  </span></a>            <span class="s1">}</span>
+<a name="l105"><span class="ln">105  </span></a>        <span class="s1">}</span>
+<a name="l106"><span class="ln">106  </span></a>        <span class="s0">return </span><span class="s1">resStr;</span>
+<a name="l107"><span class="ln">107  </span></a>    <span class="s1">}</span>
+<a name="l108"><span class="ln">108  </span></a>
+<a name="l109"><span class="ln">109  </span></a>    <span class="s3">/**</span>
+<a name="l110"><span class="ln">110  </span></a>     <span class="s3">* Возьмите 512 бит из индекса inputBytes как новый пакет</span>
+<a name="l111"><span class="ln">111  </span></a>     <span class="s3">* Разделите каждую 512-битную группу на 16 групп, каждая по 64 бита (8 байтов)</span>
+<a name="l112"><span class="ln">112  </span></a>     <span class="s3">* </span><span class="s0">@param </span><span class="s3">inputBytes</span>
+<a name="l113"><span class="ln">113  </span></a>     <span class="s3">* </span><span class="s0">@param </span><span class="s3">index</span>
+<a name="l114"><span class="ln">114  </span></a>     <span class="s3">* </span><span class="s0">@return</span>
+<a name="l115"><span class="ln">115  </span></a>     <span class="s3">*/</span>
+<a name="l116"><span class="ln">116  </span></a>    <span class="s0">private static long</span><span class="s1">[] divGroup(</span><span class="s0">byte</span><span class="s1">[] inputBytes,</span><span class="s0">int </span><span class="s1">index){</span>
+<a name="l117"><span class="ln">117  </span></a>        <span class="s0">long </span><span class="s1">[] temp=</span><span class="s0">new long</span><span class="s1">[</span><span class="s4">16</span><span class="s1">];</span>
+<a name="l118"><span class="ln">118  </span></a>        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s4">0</span><span class="s1">;i&lt;</span><span class="s4">16</span><span class="s1">;i++){</span>
+<a name="l119"><span class="ln">119  </span></a>            <span class="s1">temp[i]=b2iu(inputBytes[</span><span class="s4">4</span><span class="s1">*i+index])|</span>
+<a name="l120"><span class="ln">120  </span></a>                    <span class="s1">(b2iu(inputBytes[</span><span class="s4">4</span><span class="s1">*i+</span><span class="s4">1</span><span class="s1">+index]))&lt;&lt;</span><span class="s4">8</span><span class="s1">|</span>
+<a name="l121"><span class="ln">121  </span></a>                    <span class="s1">(b2iu(inputBytes[</span><span class="s4">4</span><span class="s1">*i+</span><span class="s4">2</span><span class="s1">+index]))&lt;&lt;</span><span class="s4">16</span><span class="s1">|</span>
+<a name="l122"><span class="ln">122  </span></a>                    <span class="s1">(b2iu(inputBytes[</span><span class="s4">4</span><span class="s1">*i+</span><span class="s4">3</span><span class="s1">+index]))&lt;&lt;</span><span class="s4">24</span><span class="s1">;</span>
+<a name="l123"><span class="ln">123  </span></a>        <span class="s1">}</span>
+<a name="l124"><span class="ln">124  </span></a>        <span class="s0">return </span><span class="s1">temp;</span>
+<a name="l125"><span class="ln">125  </span></a>    <span class="s1">}</span>
+<a name="l126"><span class="ln">126  </span></a>
+<a name="l127"><span class="ln">127  </span></a>    <span class="s3">/**</span>
+<a name="l128"><span class="ln">128  </span></a>     <span class="s3">* В настоящее время нет знакового бита (хранилище знаковых битов больше не представляет положительные и отрицательные значения), поэтому вам нужно иметь дело с этим</span>
+<a name="l129"><span class="ln">129  </span></a>     <span class="s3">* </span><span class="s0">@param </span><span class="s3">b</span>
+<a name="l130"><span class="ln">130  </span></a>     <span class="s3">* </span><span class="s0">@return</span>
+<a name="l131"><span class="ln">131  </span></a>     <span class="s3">*/</span>
+<a name="l132"><span class="ln">132  </span></a>    <span class="s0">public static long </span><span class="s1">b2iu(</span><span class="s0">byte </span><span class="s1">b){</span>
+<a name="l133"><span class="ln">133  </span></a>        <span class="s0">return </span><span class="s1">b &lt; </span><span class="s4">0 </span><span class="s1">? b &amp; </span><span class="s4">0x7F </span><span class="s1">+ </span><span class="s4">128 </span><span class="s1">: b;</span>
+<a name="l134"><span class="ln">134  </span></a>    <span class="s1">}</span>
+<a name="l135"><span class="ln">135  </span></a>
+<a name="l136"><span class="ln">136  </span></a>    <span class="s3">/**</span>
+<a name="l137"><span class="ln">137  </span></a>     <span class="s3">* Основная операция, четыре цикла</span>
+<a name="l138"><span class="ln">138  </span></a>     <span class="s3">* </span><span class="s0">@param </span><span class="s3">groups [] --- каждая группа имеет 512 бит (64 байта)</span>
+<a name="l139"><span class="ln">139  </span></a>     <span class="s3">*/</span>
+<a name="l140"><span class="ln">140  </span></a>    <span class="s0">private void </span><span class="s1">trans(</span><span class="s0">long</span><span class="s1">[] groups) {</span>
+<a name="l141"><span class="ln">141  </span></a>        <span class="s0">long </span><span class="s1">a = result[</span><span class="s4">0</span><span class="s1">], b = result[</span><span class="s4">1</span><span class="s1">], c = result[</span><span class="s4">2</span><span class="s1">], d = result[</span><span class="s4">3</span><span class="s1">];</span>
+<a name="l142"><span class="ln">142  </span></a>        <span class="s3">/*первый раунд*/</span>
+<a name="l143"><span class="ln">143  </span></a>        <span class="s1">a = FF(a, b, c, d, groups[</span><span class="s4">0</span><span class="s1">], S11, </span><span class="s4">0xd76aa478L</span><span class="s1">); </span><span class="s3">/* 1 */</span>
+<a name="l144"><span class="ln">144  </span></a>        <span class="s1">d = FF(d, a, b, c, groups[</span><span class="s4">1</span><span class="s1">], S12, </span><span class="s4">0xe8c7b756L</span><span class="s1">); </span><span class="s3">/* 2 */</span>
+<a name="l145"><span class="ln">145  </span></a>        <span class="s1">c = FF(c, d, a, b, groups[</span><span class="s4">2</span><span class="s1">], S13, </span><span class="s4">0x242070dbL</span><span class="s1">); </span><span class="s3">/* 3 */</span>
+<a name="l146"><span class="ln">146  </span></a>        <span class="s1">b = FF(b, c, d, a, groups[</span><span class="s4">3</span><span class="s1">], S14, </span><span class="s4">0xc1bdceeeL</span><span class="s1">); </span><span class="s3">/* 4 */</span>
+<a name="l147"><span class="ln">147  </span></a>        <span class="s1">a = FF(a, b, c, d, groups[</span><span class="s4">4</span><span class="s1">], S11, </span><span class="s4">0xf57c0fafL</span><span class="s1">); </span><span class="s3">/* 5 */</span>
+<a name="l148"><span class="ln">148  </span></a>        <span class="s1">d = FF(d, a, b, c, groups[</span><span class="s4">5</span><span class="s1">], S12, </span><span class="s4">0x4787c62aL</span><span class="s1">); </span><span class="s3">/* 6 */</span>
+<a name="l149"><span class="ln">149  </span></a>        <span class="s1">c = FF(c, d, a, b, groups[</span><span class="s4">6</span><span class="s1">], S13, </span><span class="s4">0xa8304613L</span><span class="s1">); </span><span class="s3">/* 7 */</span>
+<a name="l150"><span class="ln">150  </span></a>        <span class="s1">b = FF(b, c, d, a, groups[</span><span class="s4">7</span><span class="s1">], S14, </span><span class="s4">0xfd469501L</span><span class="s1">); </span><span class="s3">/* 8 */</span>
+<a name="l151"><span class="ln">151  </span></a>        <span class="s1">a = FF(a, b, c, d, groups[</span><span class="s4">8</span><span class="s1">], S11, </span><span class="s4">0x698098d8L</span><span class="s1">); </span><span class="s3">/* 9 */</span>
+<a name="l152"><span class="ln">152  </span></a>        <span class="s1">d = FF(d, a, b, c, groups[</span><span class="s4">9</span><span class="s1">], S12, </span><span class="s4">0x8b44f7afL</span><span class="s1">); </span><span class="s3">/* 10 */</span>
+<a name="l153"><span class="ln">153  </span></a>        <span class="s1">c = FF(c, d, a, b, groups[</span><span class="s4">10</span><span class="s1">], S13, </span><span class="s4">0xffff5bb1L</span><span class="s1">); </span><span class="s3">/* 11 */</span>
+<a name="l154"><span class="ln">154  </span></a>        <span class="s1">b = FF(b, c, d, a, groups[</span><span class="s4">11</span><span class="s1">], S14, </span><span class="s4">0x895cd7beL</span><span class="s1">); </span><span class="s3">/* 12 */</span>
+<a name="l155"><span class="ln">155  </span></a>        <span class="s1">a = FF(a, b, c, d, groups[</span><span class="s4">12</span><span class="s1">], S11, </span><span class="s4">0x6b901122L</span><span class="s1">); </span><span class="s3">/* 13 */</span>
+<a name="l156"><span class="ln">156  </span></a>        <span class="s1">d = FF(d, a, b, c, groups[</span><span class="s4">13</span><span class="s1">], S12, </span><span class="s4">0xfd987193L</span><span class="s1">); </span><span class="s3">/* 14 */</span>
+<a name="l157"><span class="ln">157  </span></a>        <span class="s1">c = FF(c, d, a, b, groups[</span><span class="s4">14</span><span class="s1">], S13, </span><span class="s4">0xa679438eL</span><span class="s1">); </span><span class="s3">/* 15 */</span>
+<a name="l158"><span class="ln">158  </span></a>        <span class="s1">b = FF(b, c, d, a, groups[</span><span class="s4">15</span><span class="s1">], S14, </span><span class="s4">0x49b40821L</span><span class="s1">); </span><span class="s3">/* 16 */</span>
+<a name="l159"><span class="ln">159  </span></a>
+<a name="l160"><span class="ln">160  </span></a>        <span class="s3">/*второй раунд*/</span>
+<a name="l161"><span class="ln">161  </span></a>        <span class="s1">a = GG(a, b, c, d, groups[</span><span class="s4">1</span><span class="s1">], S21, </span><span class="s4">0xf61e2562L</span><span class="s1">); </span><span class="s3">/* 17 */</span>
+<a name="l162"><span class="ln">162  </span></a>        <span class="s1">d = GG(d, a, b, c, groups[</span><span class="s4">6</span><span class="s1">], S22, </span><span class="s4">0xc040b340L</span><span class="s1">); </span><span class="s3">/* 18 */</span>
+<a name="l163"><span class="ln">163  </span></a>        <span class="s1">c = GG(c, d, a, b, groups[</span><span class="s4">11</span><span class="s1">], S23, </span><span class="s4">0x265e5a51L</span><span class="s1">); </span><span class="s3">/* 19 */</span>
+<a name="l164"><span class="ln">164  </span></a>        <span class="s1">b = GG(b, c, d, a, groups[</span><span class="s4">0</span><span class="s1">], S24, </span><span class="s4">0xe9b6c7aaL</span><span class="s1">); </span><span class="s3">/* 20 */</span>
+<a name="l165"><span class="ln">165  </span></a>        <span class="s1">a = GG(a, b, c, d, groups[</span><span class="s4">5</span><span class="s1">], S21, </span><span class="s4">0xd62f105dL</span><span class="s1">); </span><span class="s3">/* 21 */</span>
+<a name="l166"><span class="ln">166  </span></a>        <span class="s1">d = GG(d, a, b, c, groups[</span><span class="s4">10</span><span class="s1">], S22, </span><span class="s4">0x2441453L</span><span class="s1">); </span><span class="s3">/* 22 */</span>
+<a name="l167"><span class="ln">167  </span></a>        <span class="s1">c = GG(c, d, a, b, groups[</span><span class="s4">15</span><span class="s1">], S23, </span><span class="s4">0xd8a1e681L</span><span class="s1">); </span><span class="s3">/* 23 */</span>
+<a name="l168"><span class="ln">168  </span></a>        <span class="s1">b = GG(b, c, d, a, groups[</span><span class="s4">4</span><span class="s1">], S24, </span><span class="s4">0xe7d3fbc8L</span><span class="s1">); </span><span class="s3">/* 24 */</span>
+<a name="l169"><span class="ln">169  </span></a>        <span class="s1">a = GG(a, b, c, d, groups[</span><span class="s4">9</span><span class="s1">], S21, </span><span class="s4">0x21e1cde6L</span><span class="s1">); </span><span class="s3">/* 25 */</span>
+<a name="l170"><span class="ln">170  </span></a>        <span class="s1">d = GG(d, a, b, c, groups[</span><span class="s4">14</span><span class="s1">], S22, </span><span class="s4">0xc33707d6L</span><span class="s1">); </span><span class="s3">/* 26 */</span>
+<a name="l171"><span class="ln">171  </span></a>        <span class="s1">c = GG(c, d, a, b, groups[</span><span class="s4">3</span><span class="s1">], S23, </span><span class="s4">0xf4d50d87L</span><span class="s1">); </span><span class="s3">/* 27 */</span>
+<a name="l172"><span class="ln">172  </span></a>        <span class="s1">b = GG(b, c, d, a, groups[</span><span class="s4">8</span><span class="s1">], S24, </span><span class="s4">0x455a14edL</span><span class="s1">); </span><span class="s3">/* 28 */</span>
+<a name="l173"><span class="ln">173  </span></a>        <span class="s1">a = GG(a, b, c, d, groups[</span><span class="s4">13</span><span class="s1">], S21, </span><span class="s4">0xa9e3e905L</span><span class="s1">); </span><span class="s3">/* 29 */</span>
+<a name="l174"><span class="ln">174  </span></a>        <span class="s1">d = GG(d, a, b, c, groups[</span><span class="s4">2</span><span class="s1">], S22, </span><span class="s4">0xfcefa3f8L</span><span class="s1">); </span><span class="s3">/* 30 */</span>
+<a name="l175"><span class="ln">175  </span></a>        <span class="s1">c = GG(c, d, a, b, groups[</span><span class="s4">7</span><span class="s1">], S23, </span><span class="s4">0x676f02d9L</span><span class="s1">); </span><span class="s3">/* 31 */</span>
+<a name="l176"><span class="ln">176  </span></a>        <span class="s1">b = GG(b, c, d, a, groups[</span><span class="s4">12</span><span class="s1">], S24, </span><span class="s4">0x8d2a4c8aL</span><span class="s1">); </span><span class="s3">/* 32 */</span>
+<a name="l177"><span class="ln">177  </span></a>
+<a name="l178"><span class="ln">178  </span></a>                 <span class="s1">/ * Третий раунд * /</span>
+<a name="l179"><span class="ln">179  </span></a>        <span class="s1">a = HH(a, b, c, d, groups[</span><span class="s4">5</span><span class="s1">], S31, </span><span class="s4">0xfffa3942L</span><span class="s1">); </span><span class="s3">/* 33 */</span>
+<a name="l180"><span class="ln">180  </span></a>        <span class="s1">d = HH(d, a, b, c, groups[</span><span class="s4">8</span><span class="s1">], S32, </span><span class="s4">0x8771f681L</span><span class="s1">); </span><span class="s3">/* 34 */</span>
+<a name="l181"><span class="ln">181  </span></a>        <span class="s1">c = HH(c, d, a, b, groups[</span><span class="s4">11</span><span class="s1">], S33, </span><span class="s4">0x6d9d6122L</span><span class="s1">); </span><span class="s3">/* 35 */</span>
+<a name="l182"><span class="ln">182  </span></a>        <span class="s1">b = HH(b, c, d, a, groups[</span><span class="s4">14</span><span class="s1">], S34, </span><span class="s4">0xfde5380cL</span><span class="s1">); </span><span class="s3">/* 36 */</span>
+<a name="l183"><span class="ln">183  </span></a>        <span class="s1">a = HH(a, b, c, d, groups[</span><span class="s4">1</span><span class="s1">], S31, </span><span class="s4">0xa4beea44L</span><span class="s1">); </span><span class="s3">/* 37 */</span>
+<a name="l184"><span class="ln">184  </span></a>        <span class="s1">d = HH(d, a, b, c, groups[</span><span class="s4">4</span><span class="s1">], S32, </span><span class="s4">0x4bdecfa9L</span><span class="s1">); </span><span class="s3">/* 38 */</span>
+<a name="l185"><span class="ln">185  </span></a>        <span class="s1">c = HH(c, d, a, b, groups[</span><span class="s4">7</span><span class="s1">], S33, </span><span class="s4">0xf6bb4b60L</span><span class="s1">); </span><span class="s3">/* 39 */</span>
+<a name="l186"><span class="ln">186  </span></a>        <span class="s1">b = HH(b, c, d, a, groups[</span><span class="s4">10</span><span class="s1">], S34, </span><span class="s4">0xbebfbc70L</span><span class="s1">); </span><span class="s3">/* 40 */</span>
+<a name="l187"><span class="ln">187  </span></a>        <span class="s1">a = HH(a, b, c, d, groups[</span><span class="s4">13</span><span class="s1">], S31, </span><span class="s4">0x289b7ec6L</span><span class="s1">); </span><span class="s3">/* 41 */</span>
+<a name="l188"><span class="ln">188  </span></a>        <span class="s1">d = HH(d, a, b, c, groups[</span><span class="s4">0</span><span class="s1">], S32, </span><span class="s4">0xeaa127faL</span><span class="s1">); </span><span class="s3">/* 42 */</span>
+<a name="l189"><span class="ln">189  </span></a>        <span class="s1">c = HH(c, d, a, b, groups[</span><span class="s4">3</span><span class="s1">], S33, </span><span class="s4">0xd4ef3085L</span><span class="s1">); </span><span class="s3">/* 43 */</span>
+<a name="l190"><span class="ln">190  </span></a>        <span class="s1">b = HH(b, c, d, a, groups[</span><span class="s4">6</span><span class="s1">], S34, </span><span class="s4">0x4881d05L</span><span class="s1">); </span><span class="s3">/* 44 */</span>
+<a name="l191"><span class="ln">191  </span></a>        <span class="s1">a = HH(a, b, c, d, groups[</span><span class="s4">9</span><span class="s1">], S31, </span><span class="s4">0xd9d4d039L</span><span class="s1">); </span><span class="s3">/* 45 */</span>
+<a name="l192"><span class="ln">192  </span></a>        <span class="s1">d = HH(d, a, b, c, groups[</span><span class="s4">12</span><span class="s1">], S32, </span><span class="s4">0xe6db99e5L</span><span class="s1">); </span><span class="s3">/* 46 */</span>
+<a name="l193"><span class="ln">193  </span></a>        <span class="s1">c = HH(c, d, a, b, groups[</span><span class="s4">15</span><span class="s1">], S33, </span><span class="s4">0x1fa27cf8L</span><span class="s1">); </span><span class="s3">/* 47 */</span>
+<a name="l194"><span class="ln">194  </span></a>        <span class="s1">b = HH(b, c, d, a, groups[</span><span class="s4">2</span><span class="s1">], S34, </span><span class="s4">0xc4ac5665L</span><span class="s1">); </span><span class="s3">/* 48 */</span>
+<a name="l195"><span class="ln">195  </span></a>
+<a name="l196"><span class="ln">196  </span></a>                 <span class="s3">/* Четвертый раунд */</span>
+<a name="l197"><span class="ln">197  </span></a>        <span class="s1">a = II(a, b, c, d, groups[</span><span class="s4">0</span><span class="s1">], S41, </span><span class="s4">0xf4292244L</span><span class="s1">); </span><span class="s3">/* 49 */</span>
+<a name="l198"><span class="ln">198  </span></a>        <span class="s1">d = II(d, a, b, c, groups[</span><span class="s4">7</span><span class="s1">], S42, </span><span class="s4">0x432aff97L</span><span class="s1">); </span><span class="s3">/* 50 */</span>
+<a name="l199"><span class="ln">199  </span></a>        <span class="s1">c = II(c, d, a, b, groups[</span><span class="s4">14</span><span class="s1">], S43, </span><span class="s4">0xab9423a7L</span><span class="s1">); </span><span class="s3">/* 51 */</span>
+<a name="l200"><span class="ln">200  </span></a>        <span class="s1">b = II(b, c, d, a, groups[</span><span class="s4">5</span><span class="s1">], S44, </span><span class="s4">0xfc93a039L</span><span class="s1">); </span><span class="s3">/* 52 */</span>
+<a name="l201"><span class="ln">201  </span></a>        <span class="s1">a = II(a, b, c, d, groups[</span><span class="s4">12</span><span class="s1">], S41, </span><span class="s4">0x655b59c3L</span><span class="s1">); </span><span class="s3">/* 53 */</span>
+<a name="l202"><span class="ln">202  </span></a>        <span class="s1">d = II(d, a, b, c, groups[</span><span class="s4">3</span><span class="s1">], S42, </span><span class="s4">0x8f0ccc92L</span><span class="s1">); </span><span class="s3">/* 54 */</span>
+<a name="l203"><span class="ln">203  </span></a>        <span class="s1">c = II(c, d, a, b, groups[</span><span class="s4">10</span><span class="s1">], S43, </span><span class="s4">0xffeff47dL</span><span class="s1">); </span><span class="s3">/* 55 */</span>
+<a name="l204"><span class="ln">204  </span></a>        <span class="s1">b = II(b, c, d, a, groups[</span><span class="s4">1</span><span class="s1">], S44, </span><span class="s4">0x85845dd1L</span><span class="s1">); </span><span class="s3">/* 56 */</span>
+<a name="l205"><span class="ln">205  </span></a>        <span class="s1">a = II(a, b, c, d, groups[</span><span class="s4">8</span><span class="s1">], S41, </span><span class="s4">0x6fa87e4fL</span><span class="s1">); </span><span class="s3">/* 57 */</span>
+<a name="l206"><span class="ln">206  </span></a>        <span class="s1">d = II(d, a, b, c, groups[</span><span class="s4">15</span><span class="s1">], S42, </span><span class="s4">0xfe2ce6e0L</span><span class="s1">); </span><span class="s3">/* 58 */</span>
+<a name="l207"><span class="ln">207  </span></a>        <span class="s1">c = II(c, d, a, b, groups[</span><span class="s4">6</span><span class="s1">], S43, </span><span class="s4">0xa3014314L</span><span class="s1">); </span><span class="s3">/* 59 */</span>
+<a name="l208"><span class="ln">208  </span></a>        <span class="s1">b = II(b, c, d, a, groups[</span><span class="s4">13</span><span class="s1">], S44, </span><span class="s4">0x4e0811a1L</span><span class="s1">); </span><span class="s3">/* 60 */</span>
+<a name="l209"><span class="ln">209  </span></a>        <span class="s1">a = II(a, b, c, d, groups[</span><span class="s4">4</span><span class="s1">], S41, </span><span class="s4">0xf7537e82L</span><span class="s1">); </span><span class="s3">/* 61 */</span>
+<a name="l210"><span class="ln">210  </span></a>        <span class="s1">d = II(d, a, b, c, groups[</span><span class="s4">11</span><span class="s1">], S42, </span><span class="s4">0xbd3af235L</span><span class="s1">); </span><span class="s3">/* 62 */</span>
+<a name="l211"><span class="ln">211  </span></a>        <span class="s1">c = II(c, d, a, b, groups[</span><span class="s4">2</span><span class="s1">], S43, </span><span class="s4">0x2ad7d2bbL</span><span class="s1">); </span><span class="s3">/* 63 */</span>
+<a name="l212"><span class="ln">212  </span></a>        <span class="s1">b = II(b, c, d, a, groups[</span><span class="s4">9</span><span class="s1">], S44, </span><span class="s4">0xeb86d391L</span><span class="s1">); </span><span class="s3">/* 64 */</span>
+<a name="l213"><span class="ln">213  </span></a>
+<a name="l214"><span class="ln">214  </span></a>                 <span class="s3">/*  Добавляем к результату предыдущего расчета */</span>
+<a name="l215"><span class="ln">215  </span></a>        <span class="s1">result[</span><span class="s4">0</span><span class="s1">] += a;</span>
+<a name="l216"><span class="ln">216  </span></a>        <span class="s1">result[</span><span class="s4">1</span><span class="s1">] += b;</span>
+<a name="l217"><span class="ln">217  </span></a>        <span class="s1">result[</span><span class="s4">2</span><span class="s1">] += c;</span>
+<a name="l218"><span class="ln">218  </span></a>        <span class="s1">result[</span><span class="s4">3</span><span class="s1">] += d;</span>
+<a name="l219"><span class="ln">219  </span></a>        <span class="s1">result[</span><span class="s4">0</span><span class="s1">]=result[</span><span class="s4">0</span><span class="s1">]&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">;</span>
+<a name="l220"><span class="ln">220  </span></a>        <span class="s1">result[</span><span class="s4">1</span><span class="s1">]=result[</span><span class="s4">1</span><span class="s1">]&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">;</span>
+<a name="l221"><span class="ln">221  </span></a>        <span class="s1">result[</span><span class="s4">2</span><span class="s1">]=result[</span><span class="s4">2</span><span class="s1">]&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">;</span>
+<a name="l222"><span class="ln">222  </span></a>        <span class="s1">result[</span><span class="s4">3</span><span class="s1">]=result[</span><span class="s4">3</span><span class="s1">]&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">;</span>
+<a name="l223"><span class="ln">223  </span></a>    <span class="s1">}</span>
+<a name="l224"><span class="ln">224  </span></a>
+<a name="l225"><span class="ln">225  </span></a>    <span class="s3">/**</span>
+<a name="l226"><span class="ln">226  </span></a>     <span class="s3">* Ниже приведена линейная функция, которая будет использоваться для обработки</span>
+<a name="l227"><span class="ln">227  </span></a>     <span class="s3">*/</span>
+<a name="l228"><span class="ln">228  </span></a>    <span class="s0">private static long </span><span class="s1">F(</span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">y, </span><span class="s0">long </span><span class="s1">z) {</span>
+<a name="l229"><span class="ln">229  </span></a>        <span class="s0">return </span><span class="s1">(x &amp; y) | ((~x) &amp; z);</span>
+<a name="l230"><span class="ln">230  </span></a>    <span class="s1">}</span>
+<a name="l231"><span class="ln">231  </span></a>
+<a name="l232"><span class="ln">232  </span></a>    <span class="s0">private static long </span><span class="s1">G(</span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">y, </span><span class="s0">long </span><span class="s1">z) {</span>
+<a name="l233"><span class="ln">233  </span></a>        <span class="s0">return </span><span class="s1">(x &amp; z) | (y &amp; (~z));</span>
+<a name="l234"><span class="ln">234  </span></a>    <span class="s1">}</span>
+<a name="l235"><span class="ln">235  </span></a>
+<a name="l236"><span class="ln">236  </span></a>    <span class="s0">private static long </span><span class="s1">H(</span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">y, </span><span class="s0">long </span><span class="s1">z) {</span>
+<a name="l237"><span class="ln">237  </span></a>        <span class="s0">return </span><span class="s1">x ^ y ^ z;</span>
+<a name="l238"><span class="ln">238  </span></a>    <span class="s1">}</span>
+<a name="l239"><span class="ln">239  </span></a>
+<a name="l240"><span class="ln">240  </span></a>    <span class="s0">private static long </span><span class="s1">I(</span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">y, </span><span class="s0">long </span><span class="s1">z) {</span>
+<a name="l241"><span class="ln">241  </span></a>        <span class="s0">return </span><span class="s1">y ^ (x | (~z));</span>
+<a name="l242"><span class="ln">242  </span></a>    <span class="s1">}</span>
+<a name="l243"><span class="ln">243  </span></a>
+<a name="l244"><span class="ln">244  </span></a>    <span class="s0">private static long </span><span class="s1">FF(</span><span class="s0">long </span><span class="s1">a, </span><span class="s0">long </span><span class="s1">b, </span><span class="s0">long </span><span class="s1">c, </span><span class="s0">long </span><span class="s1">d, </span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">s,</span>
+<a name="l245"><span class="ln">245  </span></a>                           <span class="s0">long </span><span class="s1">ac) {</span>
+<a name="l246"><span class="ln">246  </span></a>        <span class="s1">a += (F(b, c, d)&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) + x + ac;</span>
+<a name="l247"><span class="ln">247  </span></a>        <span class="s1">a = ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">)&lt;&lt; s) | ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &gt;&gt;&gt; (</span><span class="s4">32 </span><span class="s1">- s));</span>
+<a name="l248"><span class="ln">248  </span></a>        <span class="s1">a += b;</span>
+<a name="l249"><span class="ln">249  </span></a>        <span class="s0">return </span><span class="s1">(a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">);</span>
+<a name="l250"><span class="ln">250  </span></a>    <span class="s1">}</span>
+<a name="l251"><span class="ln">251  </span></a>
+<a name="l252"><span class="ln">252  </span></a>    <span class="s0">private static long </span><span class="s1">GG(</span><span class="s0">long </span><span class="s1">a, </span><span class="s0">long </span><span class="s1">b, </span><span class="s0">long </span><span class="s1">c, </span><span class="s0">long </span><span class="s1">d, </span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">s,</span>
+<a name="l253"><span class="ln">253  </span></a>                           <span class="s0">long </span><span class="s1">ac) {</span>
+<a name="l254"><span class="ln">254  </span></a>        <span class="s1">a += (G(b, c, d)&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) + x + ac;</span>
+<a name="l255"><span class="ln">255  </span></a>        <span class="s1">a = ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &lt;&lt; s) | ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &gt;&gt;&gt; (</span><span class="s4">32 </span><span class="s1">- s));</span>
+<a name="l256"><span class="ln">256  </span></a>        <span class="s1">a += b;</span>
+<a name="l257"><span class="ln">257  </span></a>        <span class="s0">return </span><span class="s1">(a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">);</span>
+<a name="l258"><span class="ln">258  </span></a>    <span class="s1">}</span>
+<a name="l259"><span class="ln">259  </span></a>
+<a name="l260"><span class="ln">260  </span></a>    <span class="s0">private static long </span><span class="s1">HH(</span><span class="s0">long </span><span class="s1">a, </span><span class="s0">long </span><span class="s1">b, </span><span class="s0">long </span><span class="s1">c, </span><span class="s0">long </span><span class="s1">d, </span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">s,</span>
+<a name="l261"><span class="ln">261  </span></a>                           <span class="s0">long </span><span class="s1">ac) {</span>
+<a name="l262"><span class="ln">262  </span></a>        <span class="s1">a += (H(b, c, d)&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) + x + ac;</span>
+<a name="l263"><span class="ln">263  </span></a>        <span class="s1">a = ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &lt;&lt; s) | ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &gt;&gt;&gt; (</span><span class="s4">32 </span><span class="s1">- s));</span>
+<a name="l264"><span class="ln">264  </span></a>        <span class="s1">a += b;</span>
+<a name="l265"><span class="ln">265  </span></a>        <span class="s0">return </span><span class="s1">(a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">);</span>
+<a name="l266"><span class="ln">266  </span></a>    <span class="s1">}</span>
+<a name="l267"><span class="ln">267  </span></a>
+<a name="l268"><span class="ln">268  </span></a>    <span class="s0">private static long </span><span class="s1">II(</span><span class="s0">long </span><span class="s1">a, </span><span class="s0">long </span><span class="s1">b, </span><span class="s0">long </span><span class="s1">c, </span><span class="s0">long </span><span class="s1">d, </span><span class="s0">long </span><span class="s1">x, </span><span class="s0">long </span><span class="s1">s,</span>
+<a name="l269"><span class="ln">269  </span></a>                           <span class="s0">long </span><span class="s1">ac) {</span>
+<a name="l270"><span class="ln">270  </span></a>        <span class="s1">a += (I(b, c, d)&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) + x + ac;</span>
+<a name="l271"><span class="ln">271  </span></a>        <span class="s1">a = ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &lt;&lt; s) | ((a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">) &gt;&gt;&gt; (</span><span class="s4">32 </span><span class="s1">- s));</span>
+<a name="l272"><span class="ln">272  </span></a>        <span class="s1">a += b;</span>
+<a name="l273"><span class="ln">273  </span></a>        <span class="s0">return </span><span class="s1">(a&amp;</span><span class="s4">0xFFFFFFFFL</span><span class="s1">);</span>
+<a name="l274"><span class="ln">274  </span></a>    <span class="s1">}</span>
+<a name="l275"><span class="ln">275  </span></a><span class="s1">}</span></pre>
+</body>
+</html>

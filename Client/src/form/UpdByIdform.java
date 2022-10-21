@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package form.forms;
+package form;
 
 import classes.*;
 import clie.ClientConnection;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * @author adgjw
  */
-public class AddDragon extends javax.swing.JDialog {
+public class UpdByIdform extends javax.swing.JDialog {
 
     /**
      * Creates new form NewDragon
@@ -26,12 +27,20 @@ public class AddDragon extends javax.swing.JDialog {
     private final ClientConnection con;
 
     private final String login;
+
+    private final Thread t;
+
+    private Color colc;
+
+    private volatile long idc = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel age;
     private javax.swing.JSpinner agef;
     private javax.swing.JButton cancel;
     private javax.swing.JLabel character;
     private javax.swing.JComboBox<String> characterf;
+    private javax.swing.JLabel id;
+    private javax.swing.JSpinner idf;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel name;
     private javax.swing.JTextField namef;
@@ -45,13 +54,58 @@ public class AddDragon extends javax.swing.JDialog {
     private javax.swing.JLabel y;
     private javax.swing.JSpinner yf;
 
-    public AddDragon(java.awt.Frame parent, boolean modal, ClientConnection con, String login) {
+    public UpdByIdform(MajorNew parent, boolean modal, ClientConnection con, String login) {
         super(parent, modal);
         this.login = login;
         this.con = con;
         initComponents();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
         this.setIconImage(icon.getImage());
+        Runnable job = () -> {
+            while (true) {
+                long tmp = (long) idf.getValue();
+
+
+                if (tmp != idc) {
+                    idc = tmp;
+                    Dragon lol = null;
+                    for (Dragon c : parent.dragons) {
+                        if (c.getId() == idc) {
+                            lol = c;
+                            break;
+                        }
+                    }
+                    if (lol != null) {
+                        namef.setText(lol.getName());
+                        agef.setValue(lol.getAge());
+                        xf.setValue(lol.getCoordinates().getX());
+                        yf.setValue(lol.getCoordinates().getY());
+                        if (lol.isSpeaking())
+                            speakf.setSelectedIndex(0);
+                        else
+                            speakf.setSelectedIndex(1);
+                        characterf.setSelectedItem(lol.getCharacter().toString());
+                        typef.setSelectedItem(lol.getType().toString());
+                        colc = lol.getCol();
+
+                    } else {
+                        namef.setText("");
+                        agef.setValue(1);
+                        xf.setValue(0);
+                        yf.setValue(0);
+                        speakf.setSelectedIndex(0);
+                        characterf.setSelectedIndex(0);
+                        typef.setSelectedIndex(0);
+                        colc = Color.red;
+                    }
+                    System.out.println(tmp);
+                }
+            }
+
+        };
+        t = new Thread(job);
+        t.start();
+
     }
 
     /**
@@ -80,6 +134,8 @@ public class AddDragon extends javax.swing.JDialog {
         characterf = new javax.swing.JComboBox<>();
         ok = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
+        id = new javax.swing.JLabel();
+        idf = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("form/local"); // NOI18N
@@ -101,7 +157,7 @@ public class AddDragon extends javax.swing.JDialog {
         character.setText(bundle.getString("title.character")); // NOI18N
 
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("form/Bundle"); // NOI18N
-        namef.setText(bundle1.getString("AddDragon.namef.text")); // NOI18N
+        namef.setText(bundle1.getString("UpdByIdform.namef.text")); // NOI18N
 
         agef.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
@@ -115,17 +171,29 @@ public class AddDragon extends javax.swing.JDialog {
 
         characterf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"WISE", "EVIL", "CHAOTIC_EVIL", "FICKLE"}));
 
-        ok.setText(bundle1.getString("AddDragon.ok.text")); // NOI18N
+        ok.setText(bundle1.getString("UpdByIdform.ok.text")); // NOI18N
         ok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okActionPerformed(evt);
             }
         });
 
-        cancel.setText(bundle1.getString("AddDragon.cancel.text")); // NOI18N
+        cancel.setText(bundle1.getString("UpdByIdform.cancel.text")); // NOI18N
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
+            }
+        });
+
+        id.setText(bundle.getString("title.id")); // NOI18N
+
+        idf.setModel(new javax.swing.SpinnerNumberModel(1L, 1L, null, 1L));
+        idf.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                idfInputMethodTextChanged(evt);
             }
         });
 
@@ -133,37 +201,43 @@ public class AddDragon extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
+                                .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cancel))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(cancel))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(character, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(speak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(y, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(x))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(namef)
-                                                        .addComponent(agef)
-                                                        .addComponent(xf)
-                                                        .addComponent(speakf, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(yf)
-                                                        .addComponent(typef, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(characterf, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addContainerGap())
+                                        .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(character, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(speak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(y, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(x))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(namef)
+                                        .addComponent(agef)
+                                        .addComponent(xf)
+                                        .addComponent(speakf, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(yf)
+                                        .addComponent(typef, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(characterf, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(idf))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addComponent(idf)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(name)
                                         .addComponent(namef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,21 +268,22 @@ public class AddDragon extends javax.swing.JDialog {
                                 .addGap(53, 53, 53)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(ok)
-                                        .addComponent(cancel))
-                                .addContainerGap())
+                                        .addComponent(cancel)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,24 +302,35 @@ public class AddDragon extends javax.swing.JDialog {
             try {
                 Dragon tmp = new Dragon();
                 tmp.setName(namef.getText());
-
+                tmp.setId((long) idf.getValue());
                 tmp.setAge((int) agef.getValue());
-                tmp.setSpeaking(true && speakf.getSelectedItem().equals("YES"));
+                tmp.setSpeaking(speakf.getSelectedItem().equals("YES"));
                 tmp.setCoordinates(new Coordinates((Long) xf.getValue(), (Long) yf.getValue()));
                 tmp.setType(DragonType.valueOf(typef.getSelectedItem().toString()));
                 tmp.setCreationDate(LocalDateTime.now());
                 tmp.setCharacter(DragonCharacter.valueOf(characterf.getSelectedItem().toString()));
                 tmp.setLogin(login);
+                tmp.setCol(colc);
 
-
-                con.send(new MessagePacket("add", tmp, login));
-                dispose();
-                JOptionPane.showMessageDialog(this, bundle.getString("comm.suc"));
+                String s = con.send(new MessagePacket("update", tmp, login));
+                System.out.println(s);
+                if (s.equals("Элемент с id успешно обновлен.")) {
+                    dispose();
+                    JOptionPane.showMessageDialog(this, bundle.getString("comm.suc"));
+                    t.interrupt();
+                } else {
+                    JOptionPane.showMessageDialog(this, bundle.getString("comm.idb"));
+                }
             } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(AddDragon.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UpdByIdform.class.getName()).log(Level.SEVERE, null, ex);
             }
-            dispose();
+            t.interrupt();
+            //dispose();
         }
     }//GEN-LAST:event_okActionPerformed
+
+    private void idfInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_idfInputMethodTextChanged
+        System.out.println(evt.getText());
+    }//GEN-LAST:event_idfInputMethodTextChanged
     // End of variables declaration//GEN-END:variables
 }

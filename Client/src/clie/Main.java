@@ -5,12 +5,13 @@
 package clie;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import form.forms.ThreadG;
+import form.ThreadG;
 
 import javax.swing.*;
 import java.util.Locale;
 
 /**
+ *
  * @author adgjw
  */
 public class Main {

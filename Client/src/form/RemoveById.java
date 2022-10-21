@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package form.forms;
+package form;
 
 import classes.MessagePacket;
 import clie.ClientConnection;
@@ -12,7 +12,7 @@ import javax.swing.*;
 /**
  * @author adgjw
  */
-public class RemoveByType extends javax.swing.JDialog {
+public class RemoveById extends javax.swing.JDialog {
 
     /**
      * Creates new form RemoveById
@@ -22,15 +22,14 @@ public class RemoveByType extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JComboBox<String> typeC;
+    private javax.swing.JTextField jTextField1;
 
-
-    public RemoveByType(java.awt.Frame parent, boolean modal, ClientConnection con, String login) {
+    public RemoveById(java.awt.Frame parent, boolean modal, ClientConnection con, String login) {
         super(parent, modal);
         this.login = login;
         this.con = con;
         initComponents();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
         this.setIconImage(icon.getImage());
     }
 
@@ -44,17 +43,26 @@ public class RemoveByType extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        typeC = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("form/local"); // NOI18N
-        jLabel1.setText(bundle.getString("comm.choose")); // NOI18N
+        jLabel1.setText(bundle.getString("title.inid")); // NOI18N
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("form/Bundle"); // NOI18N
-        jLabel1.setToolTipText(bundle1.getString("RemoveByType.jLabel1.toolTipText")); // NOI18N
+        jLabel1.setToolTipText(bundle1.getString("RemoveById.jLabel1.toolTipText")); // NOI18N
+
+        jTextField1.setText(bundle1.getString("RemoveById.text")); // NOI18N
+        jTextField1.setToolTipText(bundle1.getString("RemoveById.jTextField1.toolTipText")); // NOI18N
+        jTextField1.setName(""); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -63,22 +71,20 @@ public class RemoveByType extends javax.swing.JDialog {
             }
         });
 
-        typeC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"WATER", "UNDERGROUND", "AIR", "FIRE"}));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(typeC, 0, 120, Short.MAX_VALUE))
-                                .addContainerGap())
+                                .addComponent(jTextField1)
+                                .addGap(7, 7, 7))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,8 +92,8 @@ public class RemoveByType extends javax.swing.JDialog {
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
-                                        .addComponent(typeC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)
                                 .addContainerGap())
         );
@@ -96,22 +102,27 @@ public class RemoveByType extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String s = typeC.getSelectedItem().toString();
+        String s = jTextField1.getText();
+        Long id;
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("form/local");
         try {
-            String ans = con.send(new MessagePacket("remove_by_type", s, login));
-            if (ans.equals("В коллекции нет драконов с таким типом или тип был введен неверно.")) {
-                //dispose();
-                JOptionPane.showMessageDialog(this, bundle.getString("title.notype"));
-            } else {
-                Integer count = Integer.parseInt(ans);
+            id = Long.getLong(s);
+            String ans = con.send(new MessagePacket("remove_by_id", s, login));
+            if (ans.equals("Элемент успешно удален")) {
                 dispose();
-                JOptionPane.showMessageDialog(this, bundle.getString("title.removedel") + ans);
+                JOptionPane.showMessageDialog(this, bundle.getString("comm.suc"));
+            } else {
+                JOptionPane.showMessageDialog(this, bundle.getString("comm.idb"));
+                jTextField1.setText("");
             }
-            //TODO фикс ответов
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, bundle.getString("comm.idb"));
+            jTextField1.setText("");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     // End of variables declaration//GEN-END:variables

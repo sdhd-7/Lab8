@@ -16,8 +16,10 @@ public class Main {
         System.out.println(tmp);
 
         DBManager.getInstance();
-        ServConnection serv = new ServConnection(1337);
+        ServConnection serv = new ServConnection(1338);
+        System.out.println(InetAddress.getLoopbackAddress());
         System.out.println(InetAddress.getLocalHost());
+
         serv.go();
 
         //System.out.println(new ShowComm(maker).make());

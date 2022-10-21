@@ -15,8 +15,8 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
-
 /**
+ *
  * @author adgjw
  */
 public class ClientConnection {

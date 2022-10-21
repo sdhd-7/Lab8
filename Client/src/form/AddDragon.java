@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package form.forms;
+package form;
 
 import classes.*;
 import clie.ClientConnection;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * @author adgjw
  */
-public class AddIfMaxDragon extends javax.swing.JDialog {
+public class AddDragon extends javax.swing.JDialog {
 
     /**
      * Creates new form NewDragon
@@ -45,12 +45,12 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
     private javax.swing.JLabel y;
     private javax.swing.JSpinner yf;
 
-    public AddIfMaxDragon(java.awt.Frame parent, boolean modal, ClientConnection con, String login) {
+    public AddDragon(java.awt.Frame parent, boolean modal, ClientConnection con, String login) {
         super(parent, modal);
         this.login = login;
         this.con = con;
         initComponents();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/form/icons/icons8_dragon_15px.png"));
         this.setIconImage(icon.getImage());
     }
 
@@ -101,7 +101,7 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
         character.setText(bundle.getString("title.character")); // NOI18N
 
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("form/Bundle"); // NOI18N
-        namef.setText(bundle1.getString("AddIfMaxDragon.namef.text_1")); // NOI18N
+        namef.setText(bundle1.getString("AddDragon.namef.text")); // NOI18N
 
         agef.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
@@ -115,14 +115,14 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
 
         characterf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"WISE", "EVIL", "CHAOTIC_EVIL", "FICKLE"}));
 
-        ok.setText(bundle1.getString("AddIfMaxDragon.ok.text_1")); // NOI18N
+        ok.setText(bundle1.getString("AddDragon.ok.text")); // NOI18N
         ok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okActionPerformed(evt);
             }
         });
 
-        cancel.setText(bundle1.getString("AddIfMaxDragon.cancel.text_1")); // NOI18N
+        cancel.setText(bundle1.getString("AddDragon.cancel.text")); // NOI18N
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
@@ -136,8 +136,8 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(ok)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(cancel))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -202,7 +202,9 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,36 +229,21 @@ public class AddIfMaxDragon extends javax.swing.JDialog {
                 tmp.setName(namef.getText());
 
                 tmp.setAge((int) agef.getValue());
-                tmp.setSpeaking(true && speakf.getSelectedItem().equals("YES"));
+                tmp.setSpeaking(speakf.getSelectedItem().equals("YES"));
                 tmp.setCoordinates(new Coordinates((Long) xf.getValue(), (Long) yf.getValue()));
-                switch (typef.getSelectedItem().toString()) {
-                    case "UNDERGROUND" -> tmp.setType(DragonType.UNDERGROUND);
-                    case "WATER" -> tmp.setType(DragonType.WATER);
-                    case "AIR" -> tmp.setType(DragonType.AIR);
-                    case "FIRE" -> tmp.setType(DragonType.FIRE);
-                }
+                tmp.setType(DragonType.valueOf(typef.getSelectedItem().toString()));
                 tmp.setCreationDate(LocalDateTime.now());
-                switch (characterf.getSelectedItem().toString()) {
-                    case "EVIL" -> tmp.setCharacter(DragonCharacter.EVIL);
-                    case "WISE" -> tmp.setCharacter(DragonCharacter.WISE);
-                    case "CHAOTIC_EVIL" -> tmp.setCharacter(DragonCharacter.CHAOTIC_EVIL);
-                    case "FICKLE" -> tmp.setCharacter(DragonCharacter.FICKLE);
-
-                }
+                tmp.setCharacter(DragonCharacter.valueOf(characterf.getSelectedItem().toString()));
                 tmp.setLogin(login);
 
 
-                String ans = con.send(new MessagePacket("add", tmp, login));
+                con.send(new MessagePacket("add", tmp, login));
                 dispose();
-                if (ans.equals("Элемент успешно добавлен."))
-                    JOptionPane.showMessageDialog(this, bundle.getString("comm.suc"));
-                else {
-                    JOptionPane.showMessageDialog(this, bundle.getString("comm.err"));
-                }
+                JOptionPane.showMessageDialog(this, bundle.getString("comm.suc"));
             } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(AddIfMaxDragon.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AddDragon.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //dispose();
+            dispose();
         }
     }//GEN-LAST:event_okActionPerformed
     // End of variables declaration//GEN-END:variables
