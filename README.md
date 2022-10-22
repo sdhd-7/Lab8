@@ -29,3 +29,36 @@
 
 
 Перед непосредственной разработкой приложения `необходимо` согласовать прототип интерфейса с преподавателем. Прототип интерфейса должен быть создан с помощью средства для построения прототипов интерфейсов(mockplus, draw.io, etc.)
+
+```sql
+create table dragons
+(
+id           bigint
+unique,
+name         varchar,
+x            bigint,
+y            bigint,
+creationdate varchar,
+age          bigint,
+speaking     boolean,
+type         varchar,
+character    varchar,
+login        varchar,
+color        integer
+);
+
+create table users
+(
+    login    varchar not null
+        unique
+        constraint users_login_key1
+            unique,
+    password varchar,
+    color    integer not null
+        unique
+        constraint users_color_key1
+            unique
+);
+
+create sequence serial
+    as integer;
