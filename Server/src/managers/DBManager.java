@@ -30,7 +30,7 @@ public final class DBManager {
             Tunnel tunnel = new Tunnel("se.ifmo.ru", prop.getProperty("user"), "DYgG%9918",
                     2222, "pg", 5432, 5432);
             System.out.println(System.getProperty("os.name"));
-            if ("Windows 10".equals(System.getProperty("os.name")))
+            if ("Windows 11".equals(System.getProperty("os.name")))
                 tunnel.connect();
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();

@@ -22,8 +22,8 @@ public class ThreadG extends Thread {
     public void run() {
         InetAddress host = null;
         try {
-            //host = InetAddress.getLocalHost();
-            host = InetAddress.getByName("192.168.31.14");
+            host = InetAddress.getLocalHost();
+            //host = InetAddress.getByName("192.168.31.14");
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
