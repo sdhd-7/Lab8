@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://D:/vfvf/flatlaf-2.3.jar!/" />
@@ -16,6 +16,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="Defaults" />
+    <orderEntry type="module" module-name="Defaults" exported="" />
+    <orderEntry type="library" exported="" name="flatlaf-3.1.1" level="project" />
   </component>
 </module>
