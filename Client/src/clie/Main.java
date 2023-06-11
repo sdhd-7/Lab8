@@ -4,9 +4,8 @@
  */
 package clie;
 
-//import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarculaLaf;
 import form.ThreadG;
-
 import javax.swing.*;
 import java.util.Locale;
 
@@ -16,13 +15,13 @@ import java.util.Locale;
  */
 public class Main {
     public static void main(String[] args) {
-        /*
+
         try {
             UIManager.setLookAndFeel(new FlatDarculaLaf());
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
-        */
+
 
         //System.out.println(Color.getColor(Color.YELLOW.toString()).toString());
         Locale.setDefault(new Locale("en"));

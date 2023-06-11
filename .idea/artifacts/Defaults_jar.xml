@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Defaults:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Defaults_jar</output-path>
-    <root id="archive" name="Defaults.jar">
-      <element id="module-output" name="Defaults" />
-    </root>
-  </artifact>
-</component>

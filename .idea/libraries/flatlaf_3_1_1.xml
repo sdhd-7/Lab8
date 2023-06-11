@@ -2,6 +2,7 @@
   <library name="flatlaf-3.1.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Defaults/flatlaf-3.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/Defaults_jar/Defaults.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

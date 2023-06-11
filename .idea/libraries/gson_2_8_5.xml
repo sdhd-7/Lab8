@@ -2,6 +2,9 @@
   <library name="gson-2.8.5">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Defaults/gson-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Defaults/jsch-0.1.55.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Defaults/postgresql-42.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/Defaults_jar/Defaults.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
