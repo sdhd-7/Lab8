@@ -1,17 +1,17 @@
 create table studs.dragons
 (
     id           bigint  not null
-        constraint table_name_pk
+        constraint dragons_pk
             unique,
-    character    varchar not null,
-    type         varchar not null,
-    x            bigint  not null,
-    y            bigint  not null,
+    name         varchar not null,
+    x            integer not null,
+    y            integer not null,
     creationdate varchar not null,
-    login        varchar not null,
     age          integer not null,
     speaking     boolean not null,
-    name         varchar not null,
+    type         varchar not null,
+    character    varchar not null,
+    login        varchar not null,
     color        integer not null
 )
     using ???;
