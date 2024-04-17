@@ -27,10 +27,10 @@ public final class DBManager {
             user = prop.getProperty("user");
             password = prop.getProperty("password");
             System.out.println("База данных сконфигурирована с db.properties.");
-            Tunnel tunnel = new Tunnel("se.ifmo.ru", prop.getProperty("user"), "DYgG%9918",
+            Tunnel tunnel = new Tunnel("helios.cs.ifmo.ru", prop.getProperty("user"), "DYgG%9918",
                     2222, "pg", 5432, 5432);
             System.out.println(System.getProperty("os.name"));
-            if ("Windows 11".equals(System.getProperty("os.name")))
+            if ("Windows 10".equals(System.getProperty("os.name")))
                 tunnel.connect();
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
@@ -63,17 +63,17 @@ public final class DBManager {
     }
 
     public void addDB(Dragon tmp) throws SQLException {
-        ResultSet temp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT nextval('serial')");
+        ResultSet temp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT nextval('studs.serial')");
         temp.next();
         long x = temp.getLong("nextval");
         //System.out.println(x);
         tmp.setId(x);
-        ResultSet tmp2 = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM users where login = '" + tmp.getLogin() + "'");
+        ResultSet tmp2 = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM studs.users where login = '" + tmp.getLogin() + "'");
         tmp2.next();
         //return String.valueOf(tmp.getInt("color"));
         tmp.setCol(new Color(tmp2.getInt("color")));
         DBManager.getInstance().getConnection().createStatement().execute("" +
-                "insert into dragons VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
+                "insert into studs.dragons VALUES (" + tmp.getId() + ",'" + tmp.getName() + "'," +
                 tmp.getCoordinates().getX() + ',' + tmp.getCoordinates().getY() + ",'" +
                 tmp.getCreationDate().toString() + "'," + tmp.getAge() + ',' + tmp.isSpeaking() + ",'" +
                 tmp.getType().toString() + "','" + tmp.getCharacter().toString()

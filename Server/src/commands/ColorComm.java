@@ -14,7 +14,7 @@ public class ColorComm extends AbstractComm {
     public synchronized String make(String login) {
         System.out.println(login);
         try {
-            ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM users where login = '" + login + "'");
+            ResultSet tmp = DBManager.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM studs.users where login = '" + login + "'");
             tmp.next();
             System.out.println(tmp.getInt("color") + " " + login);
             return String.valueOf(tmp.getInt("color"));

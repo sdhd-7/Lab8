@@ -23,7 +23,8 @@ public class ThreadG extends Thread {
         InetAddress host = null;
         try {
             host = InetAddress.getLocalHost();
-            //host = InetAddress.getByName("192.168.31.14");
+            System.out.println(InetAddress.getByName("sdhd.zapto.org").getHostAddress());
+            host = InetAddress.getByName("sdhd.zapto.org");
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);

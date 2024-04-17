@@ -12,8 +12,9 @@ public class NewLoginComm extends AbstractComm {
     @Override
     public synchronized String make(String log, String pass, int col) {
         try {
-            DBManager.getInstance().getConnection().createStatement().execute("insert into users values (" + "'" + log + "' ,'" + pass + "'," + col + ")");
+            DBManager.getInstance().getConnection().createStatement().execute("insert into studs.users values (" + "'" + log + "' ,'" + pass + "'," + col + ")");
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return "bad";
 
         }
