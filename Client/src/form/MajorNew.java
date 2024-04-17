@@ -50,6 +50,7 @@ public class MajorNew extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tablepane;
     private javax.swing.JMenuItem update;
     private javax.swing.JButton visual;
+    private Thread t;
 
     public MajorNew(String logins, ClientConnection tmp) {
         this.con = tmp;
@@ -98,7 +99,7 @@ public class MajorNew extends javax.swing.JFrame {
             }
         };
 
-        Thread t = new Thread(task);
+        t = new Thread(task);
         t.start();
     }
 
@@ -369,6 +370,7 @@ public class MajorNew extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.dispose();
+        this.t.stop();
         (new ThreadG()).start();
     }//GEN-LAST:event_formWindowClosing
 
